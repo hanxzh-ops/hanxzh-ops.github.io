@@ -1,5 +1,5 @@
-pillar: manufacturing
 ---
+pillar: manufacturing
 title: "Automatic Rubber Batching & Indicator (Vibram)"
 permalink: /projects/rubber-batching/
 excerpt: "Built an Arduino-controlled batching system translating text recipes into precise dispensing commands."

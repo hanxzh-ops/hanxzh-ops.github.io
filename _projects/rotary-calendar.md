@@ -1,5 +1,5 @@
-pillar: mechanical-design
 ---
+pillar: mechanical-design
 title: "End-to-End Development and Commercialisation of Rotary Calendar Product"
 permalink: /projects/rotary-calendar/
 excerpt: "Led concept + market research through CAD/CAM, prototyping, and full-scale production."

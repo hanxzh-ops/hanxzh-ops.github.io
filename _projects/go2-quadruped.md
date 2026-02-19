@@ -1,3 +1,4 @@
+pillar: control-robotics
 ---
 title: "Intelligent Control of Quadruped Robot (Unitree Go2) — RL & MPC Capstone"
 permalink: /projects/go2-quadruped/

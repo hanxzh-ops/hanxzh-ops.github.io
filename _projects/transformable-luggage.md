@@ -1,3 +1,4 @@
+pillar: mechanical-design
 ---
 title: "Transformable Carry-On / Checked Luggage Prototype"
 permalink: /projects/transformable-luggage/

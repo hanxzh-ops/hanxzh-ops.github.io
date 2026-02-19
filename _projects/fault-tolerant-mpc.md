@@ -1,3 +1,4 @@
+pillar: control-robotics
 ---
 title: "Fault-Tolerant MPC for Aircraft Recovery (Collaborative Research)"
 permalink: /projects/fault-tolerant-mpc/

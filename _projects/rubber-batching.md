@@ -1,3 +1,4 @@
+pillar: manufacturing
 ---
 title: "Automatic Rubber Batching & Indicator (Vibram)"
 permalink: /projects/rubber-batching/

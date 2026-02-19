@@ -1,3 +1,4 @@
+pillar: control-robotics
 ---
 title: "Hexabot Locomotion Control — Kinematics, Gait Planning & Simulation"
 permalink: /projects/hexabot/

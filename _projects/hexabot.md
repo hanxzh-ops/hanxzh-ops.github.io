@@ -1,5 +1,5 @@
-pillar: control-robotics
 ---
+pillar: control-robotics
 title: "Hexabot Locomotion Control — Kinematics, Gait Planning & Simulation"
 permalink: /projects/hexabot/
 excerpt: "Designed and modelled a six-legged robot using D–H parameters and Lagrangian dynamics."

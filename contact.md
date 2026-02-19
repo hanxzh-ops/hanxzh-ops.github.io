@@ -4,6 +4,6 @@ title: "Contact"
 permalink: /contact/
 ---
 
-- Email: **YOUR_EMAIL**
-- GitHub: **https://github.com/YOUR_GITHUB_USERNAME**
+- Email: **hanxzh@berkeley.edu**
+- GitHub: **https://github.com/hanxzh-ops**
 - LinkedIn: **YOUR_LINKEDIN_URL**

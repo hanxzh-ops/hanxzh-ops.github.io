@@ -1,5 +1,5 @@
-pillar: manufacturing
 ---
+pillar: manufacturing
 title: "Automatic G-Code Generator for Circuit Printing Machining"
 permalink: /projects/gcode-generator/
 excerpt: "Designed algorithms translating 2D drawings of circuit printing trays into CNC-ready G-code."

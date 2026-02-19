@@ -1,0 +1,37 @@
+title: "Hanxiao Zhang"
+description: "Mechanical Engineer • Product Design • Prototyping • Manufacturing"
+url: "https://YOUR_GITHUB_USERNAME.github.io"
+baseurl: ""
+
+remote_theme: "mmistakes/minimal-mistakes"
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+
+author:
+  name: "Hanxiao Zhang"
+  avatar: "/assets/images/avatar.jpg"
+  bio: "Mechanical Engineer focused on product design, prototyping, and manufacturing. I build mechatronic systems and validate them with testing + simulation."
+  location: "Berkeley, CA"
+  links:
+    - label: "Email"
+      icon: "fas fa-envelope"
+      url: "mailto:hanxzh@berkeley.edu"
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/hanxzh-ops"
+
+defaults:
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: single
+      author_profile: true
+      share: false
+      related: true
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/

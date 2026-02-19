@@ -1,5 +1,5 @@
-pillar: mechanical-design
 ---
+pillar: mechanical-design
 title: "Transformable Carry-On / Checked Luggage Prototype"
 permalink: /projects/transformable-luggage/
 excerpt: "Engineered a size-adjustable suitcase that transforms between carry-on and checked dimensions."

@@ -4,4 +4,4 @@ title: "Resume"
 permalink: /resume/
 ---
 
-- **PDF:** [Download my resume](/assets/docs/Hanxiao_Zhang_Resume.pdf)
+- **PDF:** [Download my resume](/assets/docs/Hanxiao Zhang_Resume_Robotics.pdf)

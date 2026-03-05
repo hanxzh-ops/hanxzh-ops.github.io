@@ -1,6 +1,6 @@
 ---
 layout: splash
-title: "YOUR_NAME"
+title: "Hanxiao Zhang"
 permalink: /
 header:
   overlay_color: "#000"

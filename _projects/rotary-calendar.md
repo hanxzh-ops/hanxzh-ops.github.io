@@ -21,80 +21,76 @@ tags:
 **Tools:** CAD/CAM, CNC machining, Diecasting, Laser cutting, QA documentation
 
 ## Project Overview
-Led the concept, design, prototyping, and full-scale production of a rotary calendar product. Managed multiple manufacturing processes and created complete documentation including BOMs, assembly guides, and QA protocols. Produced 20 identical units for commercial release.
+This project covered the full path from concept selection to small-batch production of a rotary desktop calendar. I developed the mechanism, translated the concept into manufacturable parts, iterated through multiple prototypes, and pushed the design through fabrication and final assembly. The end result was a batch of 20 finished units that were reliable enough for sale through a school program.
 
 ---
 
 ## Design & Prototyping
-- Initial concept sketches → CAD renders to verify mechanism and dimensions.
-- Prototype 3D-printed parts for functional testing.
-- Early failure testing guided design revisions.
+- Built the first CAD model to lock in the rotating date-display concept and overall packaging.
+- Used rapid prototypes to test wheel spacing, visibility through the front frame, and how easily the calendar could be advanced by hand.
+- Iterated the frame and support geometry after hands-on testing exposed alignment and usability issues.
 
 ### Media
 ![First CAD Render](/assets/images/projects/rotary/first_render.jpg)
-*Initial CAD render showing the rotary mechanism.*
+*Initial CAD render used to validate the rotating calendar layout and proportions.*
 
 ![Prototype](/assets/images/projects/rotary/prototype.jpg)
-*3D-printed prototype used for mechanical testing.*
+*Early proof-of-concept prototype used to check the mechanism and overall form factor.*
+
+![First MVP](/assets/images/projects/rotary/first_mvp.jpg)
+*First MVP assembly combining printed date wheels with a sheet-metal frame.*
+
+![Improved Prototype](/assets/images/projects/rotary/improved_prototype.jpg)
+*Later prototype with cleaner geometry and improved visual presentation of the date windows.*
 
 ---
 
-## Mold & Machining
-- Designed injection molds and machined critical parts with CNC.
-- Verified tolerances for diecasting and ensured fitment of moving components.
-- Machined custom bolts and fasteners for assembly.
+## Manufacturing Development
+- Refined the design around processes that could support repeatable small-batch production, including laser-cut or formed metal parts, printed wheels, and machined hardware.
+- Checked tolerances and fit between the side supports, axle, and rotating wheels to prevent binding while keeping the assembly visually tight.
+- Made custom fasteners for the final assemblies so the hardware matched the compact packaging of the product.
 
 ### Media
-![Mold Model](/assets/images/projects/rotary/mold_model.jpg)
-*CAD model of the injection mold.*
-
-![Machined Part](/assets/images/projects/rotary/machined_part.jpg)
-*Critical CNC-machined components.*
-
 ![Custom Bolts](/assets/images/projects/rotary/bolts.jpg)
-*Special fasteners machined for the project.*
+*Custom machined fasteners prepared for final assembly.*
 
 ---
 
-## MVP & Testing
-- Assembled first Minimum Viable Product (MVP) units for functionality testing.
-- Ran durability, rotation, and lifespan tests.
-- Documented all QA findings and incorporated improvements into final build.
+## Testing & Quality Iteration
+- Evaluated each build for rotation smoothness, wheel alignment, readability, and assembly consistency.
+- Used failed or borderline parts to identify where the frame geometry and fabrication quality needed tighter control.
+- Fed those findings back into the next prototype cycle before committing to the final production run.
 
 ### Media
-![MVP Assembly](/assets/images/projects/rotary/mvp.jpg)
-*First MVP assembled and under testing.*
+![QC Issue](/assets/images/projects/rotary/bad_qc.jpg)
+*An out-of-spec sheet-metal frame that made alignment issues easy to spot during QC.*
 
-![QA Testing](/assets/images/projects/rotary/qa_test.jpg)
-*Durability testing in progress.*
+![Product Lineup](/assets/images/projects/rotary/product.jpg)
+*Multiple finished variants used to compare fit, finish, and overall presentation across the batch.*
 
 ---
 
 ## Documentation
-- Created complete **BOM**, **assembly instructions**, and **QA checklist**.
-- All files stored in `/assets/docs/rotary_calendar/` for team and manufacturing use.
-
-### Media / Downloads
-- [Download BOM (PDF)](/assets/docs/rotary_calendar/bom.pdf)
-- [Assembly Instructions (PDF)](/assets/docs/rotary_calendar/assembly.pdf)
-- [QA Checklist (PDF)](/assets/docs/rotary_calendar/qa.pdf)
+- Created the core production documentation needed to keep the build repeatable, including parts planning, assembly references, and QA checks.
+- Standardized assembly steps so multiple units could be built with consistent hardware, wheel orientation, and visual alignment.
 
 ---
 
 ## Final Product
-- Produced 20 fully functioning units, validated for quality.
-- Units commercialized via school sales program, all met design intent and function.
+- Completed a 20-unit batch of rotary calendars with different color and material finishes.
+- The final design delivered a compact mechanical product with clear date windows, satisfying tactile interaction, and a more polished presentation than the early prototypes.
+- The project tied together product design, prototyping, fabrication, assembly planning, and quality control in one end-to-end build cycle.
 
 ### Media
-![Final Product](/assets/images/projects/rotary/final_product.jpg)
-*Finished rotary calendar unit ready for sale.*
+![Final Product](/assets/images/projects/rotary/rotary_calendar.jpg)
+*One of the completed rotary calendar units from the final build.*
 
-![Product Showcase](/assets/images/projects/rotary/showcase.jpg)
-*Display of final production units.*
+![Production Batch](/assets/images/projects/rotary/final%20product%20.jpg)
+*Group photo of the completed batch after final assembly and finishing.*
 
 ---
 
 ## Key Learnings
-- Iterative prototyping drastically reduced final design errors.
-- Multi-process manufacturing requires careful process documentation for repeatability.
-- Early functional testing saves both time and material costs during final production.
+- Iterative prototyping was essential because small alignment errors had an outsized impact on how the mechanism looked and felt.
+- Designing for small-batch production required balancing appearance, manufacturability, and assembly effort rather than optimizing only for the first prototype.
+- Quality control mattered at the part level as much as the assembly level; catching bad fabricated parts early saved time during final integration.

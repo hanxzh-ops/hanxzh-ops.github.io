@@ -6,4 +6,4 @@ permalink: /contact/
 
 - Email: **hanxzh@berkeley.edu**
 - GitHub: **https://github.com/hanxzh-ops**
-- LinkedIn: **YOUR_LINKEDIN_URL**
+- LinkedIn: **https://www.linkedin.com/in/hanxiao-zhang-6713b0383/**

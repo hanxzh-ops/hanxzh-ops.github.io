@@ -4,7 +4,8 @@ title: "Fault-Tolerant MPC for Aircraft Recovery (Collaborative Research)"
 permalink: /projects/fault-tolerant-mpc/
 excerpt: "Built a two-layer MPC guidance stack that reroutes a damaged aircraft toward a feasible runway or crash landing site under degraded control authority."
 header:
-  teaser: /assets/images/teasers/aircraft.svg
+  teaser: /assets/images/projects/MPC/cover.png
+  
 categories:
   - Controls
 tags:

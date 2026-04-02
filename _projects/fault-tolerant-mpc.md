@@ -5,7 +5,7 @@ permalink: /projects/fault-tolerant-mpc/
 excerpt: "Built a two-layer MPC guidance stack that reroutes a damaged aircraft toward a feasible runway or crash landing site under degraded control authority."
 header:
   teaser: /assets/images/projects/MPC/cover.png
-  
+  image: /assets/images/projects/MPC/cover.png
 categories:
   - Controls
 tags:
@@ -46,6 +46,9 @@ Those choices made the controller more of a guidance system than a low-level fli
 
 ## Pipeline
 The guidance stack separated global geometry from local control:
+
+![Guidance Pipeline](/assets/images/projects/MPC/pipeline.png)
+*Two-layer guidance architecture showing the separation between long-horizon planning and short-horizon MPC tracking.*
 
 - The planner solved a convex QP over 3D waypoints to produce a smooth approach path that converged to the runway threshold and aligned with runway heading near touchdown.
 - The MPC linearized the nonlinear kinematic model at each step and tracked a short local window of the planned path using a convex QP.

@@ -34,9 +34,21 @@ feature_row:
     url: "/personal-projects/"
     btn_label: "Open"
     btn_class: "btn--primary"
+recent_project:
+  - image_path: /assets/images/projects/Go2/cover.jpg
+    alt: "Unitree Go2 project cover"
+    title: "Unitree Go2 Quadruped"
+    excerpt: "Full-stack locomotion and cooperative manipulation system combining RL, IK, sensor fusion, and onboard intent estimation."
+    url: "/projects/go2-quadruped/"
+    btn_label: "View Project"
+    btn_class: "btn--primary"
 
 ---
 
 {% include feature_row id="intro" type="center" %}
 
 {% include feature_row %}
+
+## Recent Project
+
+{% include feature_row id="recent_project" %}

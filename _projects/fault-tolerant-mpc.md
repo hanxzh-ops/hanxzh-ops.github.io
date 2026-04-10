@@ -2,7 +2,7 @@
 pillar: control-robotics
 title: "Fault-Tolerant MPC for Aircraft Recovery (Collaborative Research)"
 permalink: /projects/fault-tolerant-mpc/
-excerpt: "Built a two-layer MPC guidance stack that reroutes a damaged aircraft toward a feasible runway or crash landing site under degraded control authority."
+excerpt: "A two-layer MPC guidance stack for rerouting a damaged aircraft toward a feasible runway or crash landing site under degraded control authority."
 header:
   teaser: /assets/images/projects/MPC/cover.png
   image: /assets/images/projects/MPC/cover.png
@@ -20,13 +20,13 @@ tags:
 ## Project Overview
 This project explored how a damaged aircraft could still be guided to a survivable touchdown using a guidance-level model and a fully convex optimisation pipeline. The controller was built as a two-layer stack: a long-horizon geometric planner generated a runway-aligned descent path, and a short-horizon linear time-varying MPC tracked that path while respecting input, rate, airspeed, and climb-angle limits. When the damage model reduced the aircraft's available descent authority enough to make the runway unreachable, the system switched to a crash-landing mode and replanned toward a feasible touchdown point outside restricted ground regions.
 
-## What I built
-- Implemented a 6-state kinematic aircraft model with states `[x, y, h, V, chi, gamma]` and control inputs `[u_accel, u_chi_dot, u_gamma_dot]`.
-- Linearized the nonlinear guidance model online at each control step and discretized it with forward Euler to obtain the LTV prediction model used by MPC.
-- Built a convex waypoint planner that optimized a 3D approach polyline using smoothness, glide-slope, lateral-centerline, and terminal-alignment objectives.
-- Developed a short-horizon MPC tracker with explicit state, input, and input-rate constraints so the predicted motion stayed dynamically reasonable under degraded authority.
-- Added event-triggered replanning logic based on tracking feasibility, along-path progress, and reachable-ground-range checks.
-- Implemented a crash-landing fallback that selected a touchdown target outside no-land ellipses and reused the same MPC structure with a stronger terminal descent penalty.
+## Project Scope
+- The team implemented a 6-state kinematic aircraft model with states `[x, y, h, V, chi, gamma]` and control inputs `[u_accel, u_chi_dot, u_gamma_dot]`.
+- The nonlinear guidance model was linearized online at each control step and discretized with forward Euler to obtain the LTV prediction model used by MPC.
+- The planning layer used a convex waypoint optimizer over a 3D approach polyline with smoothness, glide-slope, lateral-centerline, and terminal-alignment objectives.
+- The tracking layer used a short-horizon MPC with explicit state, input, and input-rate constraints so the predicted motion remained dynamically reasonable under degraded authority.
+- The full pipeline incorporated event-triggered replanning logic based on tracking feasibility, along-path progress, and reachable-ground-range checks.
+- A crash-landing fallback mode was included so the same overall framework could retarget a touchdown region outside no-land ellipses with a stronger terminal descent penalty.
 
 ## Model & Design Specifications
 The control design was intentionally lightweight so the optimisation stayed fast and robust:
@@ -85,7 +85,7 @@ Because the model was linearized about the current operating point at every step
 ## Damage Handling
 Damage was modeled by tightening the aircraft's allowable climb-angle envelope in flight. In the main damage scenario, the aircraft switched from its nominal envelope to a constrained descent window, with the code applying bounds such as `gamma_max = -5 deg` or `gamma_max = -3 deg` depending on the test. That forced the aircraft into a shallower or more constrained descent and could make the original runway path infeasible.
 
-To handle that case, I added:
+To handle that case, the team incorporated:
 
 - feasibility triggers based on cross-track error growth and lack of along-path progress,
 - an online reachability check comparing remaining path length to maximum achievable horizontal range computed from altitude and allowed descent angle, and

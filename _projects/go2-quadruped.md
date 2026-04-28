@@ -33,7 +33,7 @@ tags:
 
 This capstone began as an open-ended exploration: take a Unitree Go2 quadruped robot, implement intelligent locomotion control, and, if time allowed, tackle the robotic arm attached to its back. What started as a parallel experiment between two control philosophies, RL vs. MPC, evolved into a unified, three-layer cooperative control system capable of carrying an oversized object alongside a human, using **no external sensors or motion capture** and relying only on the robot's onboard IMU, foot force sensors, joint encoders, and arm feedback.
 
-The final demo shows the Go2 walking in coordination with a human to carry a shared object, with intent estimated purely from the physical signals of the interaction itself.
+The later-stage system expanded beyond simple forward/backward intention decoding. After the initial cooperative carrying result, the interaction pipeline was extended to classify sideways transport intent and arm up/down motion as well, making the robot substantially more useful in a realistic shared-carry task with obstacle avoidance and path correction.
 
 ---
 
@@ -309,10 +309,41 @@ The **InEKF (Invariant Extended Kalman Filter) state estimator** fused IMU linea
 
 ---
 
-## Final Demo - Cooperative Object Carrying
+### Milestone 10 - Expanded Intention Dataset, Preprocessing & GRU Classifiers
+*April 2026*
+
+Once the initial forward/backward classifier and carry logic were working reliably, the next limitation became obvious: cooperative transport is not only about moving forward or stopping. A practical shared-carry system also needs to understand lateral correction and vertical object adjustment. To address that, the data-collection pipeline was extended so the team could capture new interaction examples for **side walking** and **arm up/down** commands while the robot was holding a shared object.
+
+The updated workflow started with repeated data collection under controlled interaction conditions, where synchronized onboard sensor streams were recorded while a human partner intentionally induced lateral carry motion and vertical load-adjustment motion. Those recordings were then preprocessed into training-ready temporal windows, aligning the force, IMU, and arm feedback channels, cleaning inconsistent segments, and organizing the labeled sequences into a format suitable for sequence learning rather than single-frame classification. This was an important change in emphasis: the team was no longer trying to classify intent from isolated instantaneous sensor values, but from short motion histories that contained the dynamic signature of how the human was interacting with the robot.
+
+The model was then upgraded from the earlier classifier structure to a **GRU-based sequence model**, which was better suited for capturing temporal patterns in the interaction data. The resulting GRU classifiers were trained specifically for the new **side-walk** and **up/down** intent classes, and both performed well in testing. In practice, this gave the robot a richer interpretation layer: instead of only detecting whether to move forward or backward, the system could now recognize when the human partner wanted to shift the object laterally or change its vertical position during cooperative transport.
+
+![Side-Walk Classifier Demo](/assets/images/projects/Go2/side-walk.gif)
+*GRU-based side-walk intent classifier integrated into the cooperative transport pipeline.*
+
+![Up-and-Down Classifier Demo](/assets/images/projects/Go2/arm-up-down.gif)
+*Vertical up/down interaction classifier for shared load adjustment during transport.*
+
+---
+
+## Final Demo - Cooperative Object Transport with Obstacle Avoidance
 *May 2026*
+
+With the expanded classifiers integrated, the final system moved from a proof-of-concept carrying demo to a more complete **physical cooperative transport** task. The robot and a human partner jointly transported an object while negotiating the environment and avoiding obstacles, with the Go2 continuously interpreting intent from onboard sensing alone and blending locomotion, arm compliance, and trajectory adjustment in real time. This was a more demanding benchmark than the earlier demos because it required the control stack to remain stable while interpreting multiple classes of interaction intent and executing them under load.
+
+<video width="100%" controls>
+  <source src="/assets/images/projects/Go2/HQ-PCoT_2.mp4" type="video/mp4">
+</video>
+*Integrated physical cooperative transport demo with obstacle avoidance and multi-class intent understanding.*
+
+The integrated system performed strongly in evaluation. Across **six rounds per method**, the cooperative transport stack outperformed both **voice control** and **pure human teleoperation** baselines. That result mattered because it suggested the shared-autonomy layer was doing more than simply replacing one manual interface with another. It was helping the robot respond faster and more naturally to physical human intent than command-mediated control strategies.
+
+![Evaluation Result](/assets/images/projects/Go2/evaluation.png)
+*Comparison of the integrated cooperative transport system against voice control and direct human teleoperation.*
 
 <video width="100%" controls>
   <source src="/assets/images/projects/Go2/walking_demo.mp4" type="video/mp4">
 </video>
-*Full cooperative carry demo with a human and the Go2 jointly carrying an oversized object. Intent is estimated from onboard sensors only.*
+*Earlier cooperative carry demo showing the core onboard-sensing transport behavior before the expanded classifier stage.*
+
+The next step for the project is to push beyond reactive shared transport and move toward **proactive cooperative transport**, where the robot does not simply respond to force cues and classified intent after they occur, but begins predicting partner behavior and assisting more intelligently before large corrections are needed.

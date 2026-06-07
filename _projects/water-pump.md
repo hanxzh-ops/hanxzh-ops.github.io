@@ -5,7 +5,7 @@ permalink: /projects/water-pump/
 excerpt: "A food-safe rotary-vane pump for charging a water tower — taken from a quantified design brief through CAD, FEA/CFD validation, GD&T tolerance analysis, a cast-then-machined manufacturing plan, full configuration-controlled documentation, and a built, leak-tested validation unit."
 header:
   image: /assets/images/projects/water%20pump/cover.jpg
-  teaser: /assets/images/projects/water%20pump/render.png
+  teaser: /assets/images/projects/water%20pump/cover.jpg
 categories:
   - Mechanical Design
   - Manufacturing

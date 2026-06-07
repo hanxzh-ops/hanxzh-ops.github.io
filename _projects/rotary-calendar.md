@@ -4,8 +4,8 @@ title: "End-to-End Development and Commercialisation of a Rotary Calendar Produc
 permalink: /projects/rotary-calendar/
 excerpt: "From market survey and concept selection through mechanism design, iterative prototyping, materials engineering, and a fully sold-out 20-unit production run."
 header:
-  teaser: /assets/images/projects/rotary/rotary_calendar.jpg
-  image: /assets/images/projects/rotary/rotary_calendar.jpg
+  teaser: /assets/images/projects/rotary/cover.jpg
+  image: /assets/images/projects/rotary/cover.jpg
 categories:
   - Product Design
   - Manufacturing
@@ -268,7 +268,7 @@ All manufacturing was carried out by the team on lab equipment. The 20-unit batc
 
 ## Final Product
 
-![Final rotary calendar](/assets/images/projects/rotary/rotary_calendar.jpg)
+![Final rotary calendar](/assets/images/projects/rotary/cover.jpg)
 *Completed rotary calendar with brass axle and bolts, aluminum 6061-T1 frame, resin-cast rollers, and hardwood base.*
 
 The completed units were offered at material cost to the class and wider school network. All 20 units were ordered and sold before the end of the semester, and several were pre-ordered before the batch was finished.

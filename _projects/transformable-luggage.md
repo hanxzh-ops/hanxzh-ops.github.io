@@ -4,8 +4,8 @@ title: "Transformable Carry-On / Checked Luggage Prototype"
 permalink: /projects/transformable-luggage/
 excerpt: "Led the concept, mechanism development, CAD, and prototype build of a transformable suitcase that expands between compact and high-capacity travel modes."
 header:
-  teaser: /assets/images/projects/suitcase/Concept%20Final.jpg
-  image: /assets/images/projects/suitcase/Concept%20Final.jpg
+  teaser: /assets/images/projects/suitcase/cover.jpg
+  image: /assets/images/projects/suitcase/cover.jpg
 categories:
   - Product Design
 tags:
@@ -60,7 +60,7 @@ The initial concept-validation stage is captured in the early mechanism simulati
 This stage established that the core concept could transition between configurations before full detail design began. After validating the motion concept, we developed the project identity and refined the first integrated product presentation.
 
 ### Media
-![Concept Final](/assets/images/projects/suitcase/Concept%20Final.jpg)
+![Concept Final](/assets/images/projects/suitcase/cover.jpg)
 *Final concept render showing the suitcase in compact, expanded, and open configurations.*
 
 ![Project Logo](/assets/images/projects/suitcase/HorizonLogo_V1.jpg)

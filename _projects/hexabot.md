@@ -4,8 +4,8 @@ title: "Hexabot Locomotion Control — Kinematics, MuJoCo Modeling & Procedural 
 permalink: /projects/hexabot/
 excerpt: "A fully physics-simulated hexapod built from analytical kinematics, a custom MuJoCo XML model, and a real-time procedural tripod gait controller."
 header:
-  teaser: /assets/images/projects/Hexabot/walking.gif
-  image: /assets/images/projects/Hexabot/walking.gif
+  teaser: /assets/images/projects/Hexabot/cover.jpg
+  image: /assets/images/projects/Hexabot/cover.jpg
 categories:
   - Mechatronics
   - Controls
@@ -116,6 +116,6 @@ This tuning process mattered in practice. Parameters such as `STEP_FREQ = 0.9 Hz
 
 The final simulation demonstrated the robot walking stably on flat ground, transitioning smoothly between stand and motion, turning without losing balance, and combining turning with translation into curved paths. The animation also showed that the tripod gait remained visually consistent and physically plausible under the chosen actuator and contact parameters. Because the controller supported held-key input rather than single-shot commands, the robot could be driven continuously in a way that felt much closer to operating a real mobile platform. Forward motion, turning, stopping, and curved walking all emerged from the same continuous control law rather than from separate canned actions.
 
-![Hexabot Walking Demo](/assets/images/projects/Hexabot/walking.gif)
+![Hexabot Walking Demo](/assets/images/projects/Hexabot/cover.jpg)
 
 The most important outcome of the project was not any single equation or controller parameter. It was the consistency of the whole pipeline. The math matched the XML, the XML matched the control assumptions, and the controller produced motion that the MuJoCo physics engine could actually realize. That consistency is what turned a legged-robot thought exercise into a functioning simulation platform. At the same time, the project made the current limitations very visible in a productive way. The gait still assumes flat terrain, the controller is still fundamentally open-loop at the gait level, and torso attitude is not yet actively stabilized by IMU feedback. Those gaps are now well defined, which makes the project a strong base for future extensions such as terrain adaptation, contact-aware gait timing, or full body stabilization.

@@ -4,8 +4,8 @@ title: "Automatic G-code Generator for Circuit-Block CNC Machining"
 permalink: /projects/gcode-generator/
 excerpt: "An image- and editor-driven pipeline that turns 2D circuit schematics into Haas/Fanuc-ready G-code for HDPE direct-ink-writing trays, taking the previous group's prototype to a robust, testable production tool."
 header:
-  image: /assets/images/projects/G_code_genrator%20/cover.png
-  teaser: /assets/images/projects/G_code_genrator%20/cover.png
+  image: /assets/images/projects/G_code_genrator%20/cover.jpg
+  teaser: /assets/images/projects/G_code_genrator%20/cover.jpg
 categories:
   - Manufacturing
   - Automation

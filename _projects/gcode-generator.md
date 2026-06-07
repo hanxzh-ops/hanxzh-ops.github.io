@@ -4,7 +4,7 @@ title: "Automatic G-code Generator for Circuit-Block CNC Machining"
 permalink: /projects/gcode-generator/
 excerpt: "An image- and editor-driven pipeline that turns 2D circuit schematics into Haas/Fanuc-ready G-code for HDPE direct-ink-writing trays, taking the previous group's prototype to a robust, testable production tool."
 header:
-  image: /assets/images/projects/G_code_genrator%20/image16.png
+  image: /assets/images/projects/G_code_genrator%20/cover.png
   teaser: /assets/images/teasers/gcode.svg
 categories:
   - Manufacturing
@@ -214,6 +214,16 @@ A representative output `.nc` was loaded into Gibbscam for backplot verification
 ![3D toolpath rendering for two components](/assets/images/projects/G_code_genrator%20/image8.png)
 *Wireframe toolpath rendering for two component pockets. Each plane is one Z-step pass; the rectangular outline is the contour finish pass.*
 
+### Whole-Layout CAM Check
+
+Backplotting a single pocket proves the renderer and the coordinate rewriter are correct in isolation. Backplotting the *entire* program proves something different and harder: that the assembler ordered every operation, grouped them by tool, and inserted tool changes correctly across a full tray. Two artifacts close that loop.
+
+![CAD model of the complete circuit tray](/assets/images/projects/G_code_genrator%20/Tray%20example.png)
+*The full target geometry as a solid CAD model — the circular battery pocket, the rectangular component pockets, and the recessed channels that connect them. This is the design intent the generated `.nc` has to reproduce; every pocket and channel the toolpath cuts is checked against this reference layout before a part is ever run on the mill.*
+
+![Full-program toolpath backplot for the complete layout](/assets/images/projects/G_code_genrator%20/simulated%20path.png)
+*Whole-program backplot of the generated G-code for an entire tray, not just a single pocket. Blue traces are cutting moves; the colored segments are the rapid and link moves between operations. Overlaying the full path confirms the assembler sequenced the battery pocket, every component pocket, and the connecting channels in the right order — and inserted a tool change only where the tool actually changes.*
+
 ---
 
 ## Milestone 4 — Schematic Editor (Tkinter)
@@ -222,7 +232,7 @@ A representative output `.nc` was loaded into Gibbscam for backplot verification
 
 The schematic editor is a Tkinter application that lets the user place components, rotate them, draw L-routed wires between them, and produce a `.nc` directly — bypassing the vision stage entirely. It is the high-fidelity authoring path.
 
-![Schematic editor with a battery / resistor / LED circuit](/assets/images/projects/G_code_genrator%20/截屏2026-06-01%2003.03.31.png)
+![Schematic editor with a battery / resistor / LED circuit](/assets/images/projects/G_code_genrator%20/Example%20of%20image%20interface.png)
 *Editor session showing a Battery (purple/red, horizontal, positive), a Resistor (orange/red, horizontal), and an LED (cyan/red, vertical) connected by L-routed purple wires. The 0.1″ grid and stock corner labels make spatial planning explicit. The toolbar exposes Select, Wire, Rotate H/V, Flip Polarity, Delete, New, Open, Save layout.json, and Generate G-code.*
 
 The editor was deliberately structured to be **headless-testable**. All data — `ComponentSpec`, `ComponentInstance`, `WireSegment`, the L-routing algorithm, and the serialize/deserialize functions — live in `editor_model.py`, which has no tkinter import. `editor.py` is the thin GUI wrapper around that model. This split means the L-routing logic, wire-distance math, and `layout.json` round-trip can all be exercised in CI without an X display.
@@ -278,11 +288,6 @@ The launcher reuses the same `assemble_program`, `detect_components`, `detect_pa
 ## Milestone 6 — The Battery Offset Bug
 
 *One late-stage CAM simulation revealed that a placed Battery component cut at the template's authored position regardless of where the layout had placed it, and at a Z depth that punched through the stock into the table. This was the most subtle bug of the project.*
-
-The original schematic + simulation that exposed the issue:
-
-![CAM simulation showing the original Battery offset](/assets/images/projects/G_code_genrator%20/截屏2026-06-01%2003.02.52.png)
-*Backplot of the corrected output. Earlier runs showed the cylindrical battery pocket landing on the right side of the stock regardless of the schematic placement, with the depth extending below the stock bottom into the fixture. After the fix the pocket lands at the layout's chosen XY and inside the [0.4, 1.0] Z range corresponding to the 0.5″ stock with its top surface at Z=1.0.*
 
 ### Root Cause
 

@@ -4,8 +4,8 @@ title: "Food-Safe Rotary-Vane Water-Tower Pump — Design, DFM & Manufacturing V
 permalink: /projects/water-pump/
 excerpt: "A food-safe rotary-vane pump for charging a water tower — taken from a quantified design brief through CAD, FEA/CFD validation, GD&T tolerance analysis, a cast-then-machined manufacturing plan, full configuration-controlled documentation, and a built, leak-tested validation unit."
 header:
-  image: /assets/images/projects/water%20pump/cover.jpg
-  teaser: /assets/images/projects/water%20pump/cover.jpg
+  image: /assets/images/projects/water-pump/cover.jpg
+  teaser: /assets/images/projects/water-pump/cover.jpg
 categories:
   - Mechanical Design
   - Manufacturing
@@ -36,7 +36,7 @@ The brief was to design a pump that charges an elevated **water tower** — movi
 
 That duty cycle, the potable-water environment, and a deliberately **small production volume (~100 units/year)** shaped every decision that followed: the pump architecture, the material set, the tolerancing strategy, and the manufacturing process plan. The deliverable was not just a CAD model — it was a **manufacturing-validation unit**: real parts produced by the processes we specified, assembled to a controlled procedure, and tested.
 
-![Rotary-vane water-tower pump — final CAD assembly](/assets/images/projects/water%20pump/render.png)
+![Rotary-vane water-tower pump — final CAD assembly](/assets/images/projects/water-pump/render.png)
 *The pump as designed: a compact rotary-vane positive-displacement unit with twin hose-barb ports, an extended drive shaft for external coupling, and a bolted front-plate/housing split line. Body is hand-sized — roughly the diameter of a coffee mug.*
 
 ### Design Brief, Quantified
@@ -69,7 +69,7 @@ Several positive-displacement and centrifugal options were weighed against the b
 
 Because the pump only transfers water rather than compressing it, I specified **balanced, equal inlet/outlet porting** — symmetric kidney ports with no compression ramp. This keeps the pressure rise gentle, minimises flow pulsation, and (importantly for life) cancels most of the hydraulic side-load on the rotor and bearings, so the bearings see a far lighter radial duty than they would in an asymmetric high-pressure layout.
 
-![Exploded view of the pump assembly](/assets/images/projects/water%20pump/exploded.png)
+![Exploded view of the pump assembly](/assets/images/projects/water-pump/exploded.png)
 *Exploded assembly: front plate and bearings, dual shaft seals, the slotted rotor carrying six vanes, the static O-ring, the pump housing, the through-bolts, and the brass inlet/outlet barbs. The architecture splits along one plane so every wetted part is reachable for cleaning and seal service.*
 
 ---
@@ -120,7 +120,7 @@ For a positive-displacement pump, **volumetric efficiency lives or dies on inter
 
 I drove the critical features with a **GD&T scheme (ASME Y14.5)** built on a clear datum reference frame: the bore axis and the front-plate sealing face are the primary datums that every running clearance is referenced to, so concentricity of the bore to the bearing bores, perpendicularity of the sealing face, and the slot positions on the rotor are all controlled rather than left to title-block tolerances. The clearance stack-up was budgeted so the assembled **rotor-bore and vane-tip clearances hold within 0.001 in (0.025 mm)** — the band that simultaneously meets the flow target and clears the cold-weld/bind risk.
 
-![GD&T drawing — machined pump detail](/assets/images/projects/water%20pump/gdt-machined.png)
+![GD&T drawing — machined pump detail](/assets/images/projects/water-pump/gdt-machined.png)
 *A sheet from the machined-part drawing package: datum references, geometric tolerances on the bore and sealing features, and the dimensional callouts that protect the internal-clearance budget. Every custom part shipped with a fully toleranced drawing rather than a model-only release.*
 
 ---
@@ -150,7 +150,7 @@ The Bill of Materials uses a part-numbering scheme that makes the make-vs-buy sp
 
 **MAC-** parts are made-to-print; **OTS-** parts are specified to a catalogue item. Pushing as much of the pump as possible onto standard bearings, seals, and fasteners is the right move at 100/year — it removes tooling cost and lets the build lean on proven, certified components.
 
-![Assembly drawing with exploded view and BOM](/assets/images/projects/water%20pump/assembly_drawing.png)
+![Assembly drawing with exploded view and BOM](/assets/images/projects/water-pump/assembly_drawing.png)
 *The controlled assembly drawing: balloon-referenced exploded view tied to the BOM, title block, and revision record — the single sheet that ties the whole part list to the build.*
 
 ---
@@ -171,10 +171,10 @@ This is the part of the project that demonstrates the *whole* product-developmen
 
 The final deliverable was a **physical validation unit**: the custom parts were produced **by the manufacturing methods we specified** (cast-and-machine for the body parts, machined rotor and vanes), then assembled to DOC-000001. One front plate was built in a **clear material so the vane mechanism is visible** through the running face — a deliberate validation aid for watching the vanes sweep and seal.
 
-![Built validation unit — clear front plate showing the vane mechanism](/assets/images/projects/water%20pump/prototype-front.jpg)
+![Built validation unit — clear front plate showing the vane mechanism](/assets/images/projects/water-pump/prototype-front.jpg)
 *The assembled validation unit. The transparent front plate exposes the rotor, the six vanes, and the central bearing — letting the vane sweep and the seal line be inspected directly while the pump turns.*
 
-![Built validation unit — inlet/outlet side](/assets/images/projects/water%20pump/prototype-side.jpg)
+![Built validation unit — inlet/outlet side](/assets/images/projects/water-pump/prototype-side.jpg)
 *The same unit from the port side, showing the twin 3/8″ hose-barb inlet/outlet fittings and the bolted housing flange.*
 
 **Validation results:**

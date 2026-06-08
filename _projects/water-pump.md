@@ -36,8 +36,10 @@ The brief was to design a pump that charges an elevated **water tower** — movi
 
 That duty cycle, the potable-water environment, and a deliberately **small production volume (~100 units/year)** shaped every decision that followed: the pump architecture, the material set, the tolerancing strategy, and the manufacturing process plan. The deliverable was not just a CAD model — it was a **manufacturing-validation unit**: real parts produced by the processes we specified, assembled to a controlled procedure, and tested.
 
-![Rotary-vane water-tower pump — final CAD assembly](/assets/images/projects/water-pump/render.png)
-*The pump as designed: a compact rotary-vane positive-displacement unit with twin hose-barb ports, an extended drive shaft for external coupling, and a bolted front-plate/housing split line. Body is hand-sized — roughly the diameter of a coffee mug.*
+<figure class="align-center">
+  <img src="/assets/images/projects/water-pump/render.png" alt="Rotary-vane water-tower pump — final CAD assembly">
+  <figcaption>The pump as designed: a compact rotary-vane positive-displacement unit with twin hose-barb ports, an extended drive shaft for external coupling, and a bolted front-plate/housing split line. Body is hand-sized — roughly the diameter of a coffee mug.</figcaption>
+</figure>
 
 ### Design Brief, Quantified
 
@@ -69,14 +71,23 @@ Several positive-displacement and centrifugal options were weighed against the b
 
 Because the pump only transfers water rather than compressing it, I specified **balanced, equal inlet/outlet porting** — symmetric kidney ports with no compression ramp. This keeps the pressure rise gentle, minimises flow pulsation, and (importantly for life) cancels most of the hydraulic side-load on the rotor and bearings, so the bearings see a far lighter radial duty than they would in an asymmetric high-pressure layout.
 
-![Exploded view of the pump assembly](/assets/images/projects/water-pump/exploded.png)
-*Exploded assembly: front plate and bearings, dual shaft seals, the slotted rotor carrying its vanes, the static O-ring, the pump housing, the through-bolts, and the brass inlet/outlet barbs. The architecture splits along one plane so every wetted part is reachable for cleaning and seal service.*
+<figure class="align-center">
+  <img src="/assets/images/projects/water-pump/exploded.png" alt="Exploded view of the pump assembly">
+  <figcaption>Exploded assembly: front plate and bearings, dual shaft seals, the slotted rotor carrying its vanes, the static O-ring, the pump housing, the through-bolts, and the brass inlet/outlet barbs. The architecture splits along one plane so every wetted part is reachable for cleaning and seal service.</figcaption>
+</figure>
 
 ---
 
 ## Mechanical Design
 
-The pumping element is a **slotted rotor running eccentrically inside a cylindrical bore**, formed between the housing and a bolted front plate. The vanes ride in the rotor slots and are flung outward against the bore wall, sweeping sealed crescents of water from the inlet kidney port to the outlet. The design baseline used six vanes; the **production unit runs four** (see [Production Optimization](#production-optimization--from-six-vanes-to-four)), which is the configuration described from here on. The rotor shaft is carried on **two permanently-lubricated ball bearings** — one in the front plate, one in the rear cover — and sealed by **two lip shaft seals**, with a single **HNBR O-ring** as the static face seal between the housing and front plate.
+The pumping element is a **slotted rotor running eccentrically inside a cylindrical bore**, formed between the housing and a bolted front plate. The vanes ride in the rotor slots and are flung outward against the bore wall, sweeping sealed crescents of water from the inlet kidney port to the outlet. The design baseline used six vanes; the **production unit runs four** (see [Production Optimization](#production-optimization--from-six-vanes-to-four)), which is the configuration described from here on.
+
+<figure class="align-center">
+  <img src="/assets/images/projects/water-pump/vane-animation.gif" alt="Animation of the rotary-vane mechanism">
+  <figcaption>Motion study of the operating principle: as the rotor turns, each vane extends to ride the bore and carries a sealed pocket of water from inlet to outlet, then retracts into its slot. This kinematic study illustrates the vane sweep that the clearance and tolerance work below has to protect.</figcaption>
+</figure>
+
+The rotor shaft is carried on **two permanently-lubricated ball bearings** — one in the front plate, one in the rear cover — and sealed by **two lip shaft seals**, with a single **HNBR O-ring** as the static face seal between the housing and front plate.
 
 A few decisions that drove the rest of the project:
 
@@ -120,11 +131,15 @@ For a positive-displacement pump, **volumetric efficiency lives or dies on inter
 
 I drove the critical features with a **GD&T scheme (ASME Y14.5)** built on a clear datum reference frame: the bore axis and the front-plate sealing face are the primary datums that every running clearance is referenced to, so concentricity of the bore to the bearing bores, perpendicularity of the sealing face, and the slot positions on the rotor are all controlled rather than left to title-block tolerances. The clearance stack-up was budgeted so the assembled **rotor-bore and vane-tip clearances hold within 0.001 in (0.025 mm)** — the band that simultaneously meets the flow target and clears the cold-weld/bind risk.
 
-![GD&T drawing — machined pump housing MAC-000001](/assets/images/projects/water-pump/gdt-machined.png)
-*Machined-housing drawing (MAC-000001). A three-datum reference frame (A–B–C) ties the controls together: a **position tolerance of ⌀0.002 in** locates the bolt pattern, with **flatness and profile callouts of 0.002–0.005 in** on the sealing face and bore. The note "MAKE FROM PART CAS-000001" makes the cast-then-machine route explicit — this finished part is cut from the casting on the next drawing. These are the geometric controls that protect the internal-clearance budget the pump's volumetric efficiency depends on.*
+<figure class="align-center">
+  <img src="/assets/images/projects/water-pump/gdt-machined.png" alt="GD&T drawing — machined pump housing MAC-000001">
+  <figcaption>Machined-housing drawing (MAC-000001). A three-datum reference frame (A–B–C) ties the controls together: a <strong>position tolerance of ⌀0.002 in</strong> locates the bolt pattern, with <strong>flatness and profile callouts of 0.002–0.005 in</strong> on the sealing face and bore. The note "MAKE FROM PART CAS-000001" makes the cast-then-machine route explicit — this finished part is cut from the casting on the next drawing. These are the geometric controls that protect the internal-clearance budget the pump's volumetric efficiency depends on.</figcaption>
+</figure>
 
-![GD&T drawing — machined front plate MAC-000004](/assets/images/projects/water-pump/frontplate-machined.png)
-*Front-plate drawing (MAC-000004), again "MACHINED FROM CAS-000004." The bearing-bore and sealing-face features carry **parallelism 0.002 in to datum D** and **flatness/profile 0.002 in**, because this face sets the rotor's axial position and squareness to the bore — the two things that decide whether the vane tips seal evenly around the sweep. Section views and a revision block complete a release-ready sheet, not a model-only handoff.*
+<figure class="align-center">
+  <img src="/assets/images/projects/water-pump/frontplate-machined.png" alt="GD&T drawing — machined front plate MAC-000004">
+  <figcaption>Front-plate drawing (MAC-000004), again "MACHINED FROM CAS-000004." The bearing-bore and sealing-face features carry <strong>parallelism 0.002 in to datum D</strong> and <strong>flatness/profile 0.002 in</strong>, because this face sets the rotor's axial position and squareness to the bore — the two things that decide whether the vane tips seal evenly around the sweep. Section views and a revision block complete a release-ready sheet, not a model-only handoff.</figcaption>
+</figure>
 
 ---
 
@@ -134,8 +149,10 @@ At **~100 units/year**, the process plan had to be right for *small-batch* econo
 
 The housing and front plate are designed as **castings first** — near-net blanks with generous radii, draft, and machining stock — and then **CNC-finished** only on the features that carry tolerance: the bore, the bearing seats, the sealing face, and the bolt pattern. That split is exactly why each of those parts carries **two drawings**: a *casting* drawing that defines the as-cast blank and a *machined* drawing that defines the finished, toleranced part. Designing the casting (draft, parting line, stock allowance, shrink) is its own discipline, and the drawing package documents both stages.
 
-![Casting drawing — pump housing CAS-000001](/assets/images/projects/water-pump/housing-casting.png)
-*The matching casting drawing (CAS-000001) for the housing: material called out as **316 stainless steel, bead-blasted**, dimensioned to **ISO 2768 medium-class** general tolerances appropriate for an as-cast blank, with explicit notes on traceability, food-/drinking-water compliance, and inspection. Read alongside the machined drawing above, the two sheets define the full cast → machine sequence for one part — the loose tolerances live on the casting, the tight ones are added only where a finished feature needs them.*
+<figure class="align-center">
+  <img src="/assets/images/projects/water-pump/housing-casting.png" alt="Casting drawing — pump housing CAS-000001">
+  <figcaption>The matching casting drawing (CAS-000001) for the housing: material called out as <strong>316 stainless steel, bead-blasted</strong>, dimensioned to <strong>ISO 2768 medium-class</strong> general tolerances appropriate for an as-cast blank, with explicit notes on traceability, food-/drinking-water compliance, and inspection. Read alongside the machined drawing above, the two sheets define the full cast → machine sequence for one part — the loose tolerances live on the casting, the tight ones are added only where a finished feature needs them.</figcaption>
+</figure>
 
 The Bill of Materials uses a part-numbering scheme that makes the make-vs-buy split explicit:
 
@@ -156,8 +173,10 @@ The Bill of Materials uses a part-numbering scheme that makes the make-vs-buy sp
 
 **MAC-** parts are made-to-print; **OTS-** parts are specified to a catalogue item. Pushing as much of the pump as possible onto standard bearings, seals, and fasteners is the right move at 100/year — it removes tooling cost and lets the build lean on proven, certified components. (The vane count shown is the four-vane **production** configuration — see the production-optimization note below; the released drawings carry the change under ECO-001.)
 
-![Assembly drawing with exploded view and BOM](/assets/images/projects/water-pump/assembly_drawing.png)
-*The controlled assembly drawing: balloon-referenced exploded view tied to the BOM, title block, and revision record — the single sheet that ties the whole part list to the build.*
+<figure class="align-center">
+  <img src="/assets/images/projects/water-pump/assembly_drawing.png" alt="Assembly drawing with exploded view and BOM">
+  <figcaption>The controlled assembly drawing: balloon-referenced exploded view tied to the BOM, title block, and revision record — the single sheet that ties the whole part list to the build.</figcaption>
+</figure>
 
 ---
 
@@ -192,11 +211,15 @@ This is the part of the project that demonstrates the *whole* product-developmen
 
 The final deliverable was a **physical validation unit**: the custom parts were produced **by the manufacturing methods we specified** (cast-and-machine for the body parts, machined rotor and vanes), then assembled to DOC-000001. One front plate was built in a **clear material so the vane mechanism is visible** through the running face — a deliberate validation aid for watching the vanes sweep and seal.
 
-![Built validation unit — clear front plate showing the vane mechanism](/assets/images/projects/water-pump/prototype-front.jpg)
-*The assembled validation unit. The transparent front plate exposes the rotor, its four vanes, and the central bearing — letting the vane sweep and the seal line be inspected directly while the pump turns.*
+<figure class="align-center">
+  <img src="/assets/images/projects/water-pump/prototype-front.jpg" alt="Built validation unit — clear front plate showing the vane mechanism">
+  <figcaption>The assembled validation unit. The transparent front plate exposes the rotor, its four vanes, and the central bearing — letting the vane sweep and the seal line be inspected directly while the pump turns.</figcaption>
+</figure>
 
-![Built validation unit — inlet/outlet side](/assets/images/projects/water-pump/prototype-side.jpg)
-*The same unit from the port side, showing the twin 3/8″ hose-barb inlet/outlet fittings and the bolted housing flange.*
+<figure class="align-center">
+  <img src="/assets/images/projects/water-pump/prototype-side.jpg" alt="Built validation unit — inlet/outlet side">
+  <figcaption>The same unit from the port side, showing the twin 3/8″ hose-barb inlet/outlet fittings and the bolted housing flange.</figcaption>
+</figure>
 
 **Validation results:**
 

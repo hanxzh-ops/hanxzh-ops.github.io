@@ -1,8 +1,9 @@
 ---
 pillar: mechanical-design
+order: 5
 title: "Food-Safe Rotary-Vane Water-Tower Pump — Design, DFM & Manufacturing Validation"
 permalink: /projects/water-pump/
-excerpt: "A food-safe rotary-vane pump for charging a water tower — taken from a quantified design brief through CAD, FEA/CFD validation, GD&T tolerance analysis, a cast-then-machined manufacturing plan, full configuration-controlled documentation, and a built, leak-tested validation unit."
+excerpt: "A food-safe rotary-vane water-tower pump taken from a quantified brief through CAD, FEA/CFD, a full ASME Y14.5 GD&T tolerance package, a cast-then-machined plan, and a built, leak-tested validation unit."
 header:
   image: /assets/images/projects/water-pump/cover.jpg
   teaser: /assets/images/projects/water-pump/cover.jpg

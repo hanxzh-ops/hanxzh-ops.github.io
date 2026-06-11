@@ -1,11 +1,12 @@
 ---
 pillar: manufacturing
+order: 8
 title: "Automatic G-code Generator for Circuit-Block CNC Machining"
 permalink: /projects/gcode-generator/
-excerpt: "An image- and editor-driven pipeline that turns 2D circuit schematics into Haas/Fanuc-ready G-code for HDPE direct-ink-writing trays, taking the previous group's prototype to a robust, testable production tool."
+excerpt: "An image-driven pipeline that turns 2D circuit schematics into Haas/Fanuc-ready G-code for HDPE direct-ink-writing trays — hardening a prior prototype into a robust, testable production tool."
 header:
-  image: /assets/images/projects/G_code_genrator%20/cover.jpg
-  teaser: /assets/images/projects/G_code_genrator%20/cover.jpg
+  image: /assets/images/projects/G_code_genrator/cover.jpg
+  teaser: /assets/images/projects/G_code_genrator/cover.jpg
 categories:
   - Manufacturing
   - Automation
@@ -37,7 +38,7 @@ The system replaces that manual workflow with a two-stage pipeline:
 1. **Parse** — read a 2D circuit schematic (either a drawn image or a layout authored in the editor) and produce a structured `layout.json` describing every component's identity, orientation, and position, plus every wire segment in inches on the physical stock.
 2. **Build** — combine the layout with the per-component Gibbscam-authored G-code templates to emit one continuous Haas/Fanuc-ready `.nc` file, including tool changes, in the dialect the lab's mill already accepts.
 
-![Physical HDPE circuit tray with installed components](/assets/images/projects/G_code_genrator%20/image16.png)
+![Physical HDPE circuit tray with installed components](/assets/images/projects/G_code_genrator/image16.png)
 *The end product — a milled HDPE tray with battery, resistor pads, LED, push-button, and connecting channels populated by hand for verification. The boxed regions are component pockets; the small recessed lanes between them are the wire channels the path G-code mills.*
 
 ---
@@ -53,7 +54,7 @@ The previous group built a working prototype in 2024 that produced a credible `.
 
 The original scope diagram from the handoff documents the three-aim breakdown — generate G-code base per component, generate circuit layout from the image, and assemble combined G-code from the layout — together with the test/pass gates the previous cohort had structured the work around.
 
-![Original project scope and team aim breakdown](/assets/images/projects/G_code_genrator%20/image7.png)
+![Original project scope and team aim breakdown](/assets/images/projects/G_code_genrator/image7.png)
 *Scoping diagram inherited from the prior cohort. Aims 1 and 2 had partial passes; Aim 3 — combined assembly — was the remaining gate, and the focus of the 2026 rewrite.*
 
 In practice, the prototype had several silent failure modes that the next group only discovered by re-running it on new schematics:
@@ -74,7 +75,7 @@ The 2026 rewrite kept everything reusable — the templates, the CSV schema, the
 
 The system pivots around one explicit contract: **`layout.json`**. Every front end produces it, the G-code stage consumes it. That separation lets the vision pipeline, the schematic editor, and the launcher GUI evolve independently, and it makes it possible to hand-edit a layout when the parser is off by a hair without rebuilding the image.
 
-![High-level pipeline diagram](/assets/images/projects/G_code_genrator%20/image21.png)
+![High-level pipeline diagram](/assets/images/projects/G_code_genrator/image21.png)
 *Pipeline stages: image input → coordinate extraction → endpoint snapping → scale to stock dimensions → modify per-component G-code → assemble. The 2026 rewrite preserves this overall ordering but replaces the implementation of every box.*
 
 In code, the package is split into the following modules:
@@ -158,12 +159,12 @@ The detected components and path segments are converted from pixels to stock-fra
 
 The result is a `layout.json` ready to feed the G-code stage. Run end-to-end on the original demo schematic, it correctly identifies the three components and the eight wire segments — including all four segments of the upper-left notch.
 
-![Synthetic test schematic input](/assets/images/projects/G_code_genrator%20/Images.jpg)
+![Synthetic test schematic input](/assets/images/projects/G_code_genrator/Images.jpg)
 *Test schematic. Components: orange Resistor (top), green Board (bottom-right), cyan LED (bottom-left). Purple lines are wires. The upper-left notch was the diagnostic case that exposed the C-shape interior-fill bug.*
 
 A second test schematic, with cleaner spacing and a single jog, was used to verify the same pipeline on a different topology:
 
-![Second test schematic](/assets/images/projects/G_code_genrator%20/image2.png)
+![Second test schematic](/assets/images/projects/G_code_genrator/image2.png)
 *A second test schematic used to exercise the parser on a simpler layout. The pipeline produced an identical-quality layout with no parameter changes.*
 
 ---
@@ -208,20 +209,20 @@ The assembler:
 
 A representative output `.nc` was loaded into Gibbscam for backplot verification. The early shipped pipeline rendered cleanly through to the simulator, with cuts landing in approximately the right places. The simulator's solid-model view confirmed that the rough cuts matched the expected component pockets:
 
-![Gibbscam backplot of a component pocket](/assets/images/projects/G_code_genrator%20/image22.png)
+![Gibbscam backplot of a component pocket](/assets/images/projects/G_code_genrator/image22.png)
 *Gibbscam backplot of the generated G-code mid-cut, showing a circular component pocket being milled on the HDPE stock. Each blue concentric ring is one Z-step pass.*
 
-![3D toolpath rendering for two components](/assets/images/projects/G_code_genrator%20/image8.png)
+![3D toolpath rendering for two components](/assets/images/projects/G_code_genrator/image8.png)
 *Wireframe toolpath rendering for two component pockets. Each plane is one Z-step pass; the rectangular outline is the contour finish pass.*
 
 ### Whole-Layout CAM Check
 
 Backplotting a single pocket proves the renderer and the coordinate rewriter are correct in isolation. Backplotting the *entire* program proves something different and harder: that the assembler ordered every operation, grouped them by tool, and inserted tool changes correctly across a full tray. Two artifacts close that loop.
 
-![CAD model of the complete circuit tray](/assets/images/projects/G_code_genrator%20/Tray%20example.png)
+![CAD model of the complete circuit tray](/assets/images/projects/G_code_genrator/Tray%20example.png)
 *The full target geometry as a solid CAD model — the circular battery pocket, the rectangular component pockets, and the recessed channels that connect them. This is the design intent the generated `.nc` has to reproduce; every pocket and channel the toolpath cuts is checked against this reference layout before a part is ever run on the mill.*
 
-![Full-program toolpath backplot for the complete layout](/assets/images/projects/G_code_genrator%20/simulated%20path.png)
+![Full-program toolpath backplot for the complete layout](/assets/images/projects/G_code_genrator/simulated%20path.png)
 *Whole-program backplot of the generated G-code for an entire tray, not just a single pocket. Blue traces are cutting moves; the colored segments are the rapid and link moves between operations. Overlaying the full path confirms the assembler sequenced the battery pocket, every component pocket, and the connecting channels in the right order — and inserted a tool change only where the tool actually changes.*
 
 ---
@@ -232,7 +233,7 @@ Backplotting a single pocket proves the renderer and the coordinate rewriter are
 
 The schematic editor is a Tkinter application that lets the user place components, rotate them, draw L-routed wires between them, and produce a `.nc` directly — bypassing the vision stage entirely. It is the high-fidelity authoring path.
 
-![Schematic editor with a battery / resistor / LED circuit](/assets/images/projects/G_code_genrator%20/Example%20of%20image%20interface.png)
+![Schematic editor with a battery / resistor / LED circuit](/assets/images/projects/G_code_genrator/Example%20of%20image%20interface.png)
 *Editor session showing a Battery (purple/red, horizontal, positive), a Resistor (orange/red, horizontal), and an LED (cyan/red, vertical) connected by L-routed purple wires. The 0.1″ grid and stock corner labels make spatial planning explicit. The toolbar exposes Select, Wire, Rotate H/V, Flip Polarity, Delete, New, Open, Save layout.json, and Generate G-code.*
 
 The editor was deliberately structured to be **headless-testable**. All data — `ComponentSpec`, `ComponentInstance`, `WireSegment`, the L-routing algorithm, and the serialize/deserialize functions — live in `editor_model.py`, which has no tkinter import. `editor.py` is the thin GUI wrapper around that model. This split means the L-routing logic, wire-distance math, and `layout.json` round-trip can all be exercised in CI without an X display.

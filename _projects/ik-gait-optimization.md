@@ -1,5 +1,6 @@
 ---
 pillar: control-robotics
+order: 3
 title: "Optimizing Inverse-Kinematics Convergence & Gait Patterns for a Planar Legged Robot (R² Space)"
 permalink: /projects/ik-gait-optimization/
 excerpt: "A first-principles MATLAB study of a 4-link planar robot — full forward/differential kinematics, a nonlinear least-squares formulation of inverse kinematics, and a benchmark of Moore-Penrose, BFGS, and Levenberg-Marquardt solvers that cut end-effector overshoot and oscillation by more than 10%."

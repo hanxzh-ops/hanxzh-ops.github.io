@@ -58,7 +58,7 @@ High-impact mechanism + product design work (CAD, prototyping, DFM, testing).
 </style>
 
 ## Featured case studies
-{% assign items = site.projects | where: "pillar", "mechanical-design" %}
+{% assign items = site.projects | where: "pillar", "mechanical-design" | sort: "order" %}
 <div class="project-grid">
 {% for p in items %}
   <article class="project-card">
@@ -75,8 +75,3 @@ High-impact mechanism + product design work (CAD, prototyping, DFM, testing).
 {% endfor %}
 </div>
 
-## Latest build logs
-{% assign posts = site.posts | where: "pillar", "mechanical-design" %}
-{% for post in posts limit:6 %}
-- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})
-{% endfor %}

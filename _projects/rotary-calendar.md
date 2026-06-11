@@ -1,8 +1,9 @@
 ---
 pillar: mechanical-design
+order: 6
 title: "End-to-End Development and Commercialisation of a Rotary Calendar Product"
 permalink: /projects/rotary-calendar/
-excerpt: "From market survey and concept selection through mechanism design, iterative prototyping, materials engineering, and a fully sold-out 20-unit production run."
+excerpt: "A rotary calendar taken end-to-end from market survey and concept selection through mechanism design, prototyping, and a fully sold-out 20-unit production run."
 header:
   teaser: /assets/images/projects/rotary/cover.jpg
   image: /assets/images/projects/rotary/cover.jpg

@@ -1,14 +1,12 @@
 main:
+  - title: "Control & Robotics"
+    url: /control-robotics/
   - title: "Mechanical Design"
     url: /mechanical-design/
   - title: "Manufacturing"
     url: /manufacturing/
-  - title: "Control & Robotics"
-    url: /control-robotics/
   - title: "Personal Projects"
     url: /personal-projects/
-  - title: "Projects"
-    url: /projects/
   - title: "Resume"
     url: /resume/
   - title: "About"

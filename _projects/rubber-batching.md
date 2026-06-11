@@ -1,8 +1,9 @@
 ---
 pillar: manufacturing
+order: 9
 title: "Automatic Rubber Batching & Indicator (Vibram)"
 permalink: /projects/rubber-batching/
-excerpt: "Built an Arduino-controlled batching system translating text recipes into precise dispensing commands."
+excerpt: "An Arduino-controlled batching system for Vibram that parses plain-text recipes into precise, repeatable dispensing commands with live indicator feedback."
 header:
   teaser: /assets/images/teasers/batching.svg
 categories:

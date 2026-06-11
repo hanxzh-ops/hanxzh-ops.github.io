@@ -1,8 +1,9 @@
 ---
 pillar: control-robotics
+order: 4
 title: "Fault-Tolerant MPC for Aircraft Recovery (Collaborative Research)"
 permalink: /projects/fault-tolerant-mpc/
-excerpt: "A two-layer MPC guidance stack for rerouting a damaged aircraft toward a feasible runway or crash landing site under degraded control authority."
+excerpt: "A two-layer (guidance + tracking) MPC stack that reroutes a damaged aircraft toward a survivable runway under degraded control authority, re-solving the trajectory online as actuator limits tighten. Collaborative research."
 header:
   teaser: /assets/images/projects/MPC/cover.jpg
   image: /assets/images/projects/MPC/cover.jpg

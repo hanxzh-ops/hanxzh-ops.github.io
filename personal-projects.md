@@ -58,7 +58,7 @@ Smaller builds, prototypes, experiments, and “weekend engineering”.
 </style>
 
 ## Featured
-{% assign items = site.projects | where: "pillar", "personal-projects" %}
+{% assign items = site.projects | where: "pillar", "personal-projects" | sort: "order" %}
 <div class="project-grid">
 {% for p in items %}
   <article class="project-card">
@@ -75,8 +75,3 @@ Smaller builds, prototypes, experiments, and “weekend engineering”.
 {% endfor %}
 </div>
 
-## Latest logs
-{% assign posts = site.posts | where: "pillar", "personal-projects" %}
-{% for post in posts limit:10 %}
-- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})
-{% endfor %}

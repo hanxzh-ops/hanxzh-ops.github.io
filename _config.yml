@@ -1,5 +1,5 @@
 title: "Hanxiao Zhang"
-description: "Mechanical Engineer • Product Design • Prototyping • Manufacturing"
+description: "Controls & robotics engineer who also designs and manufactures hardware — RL/MPC locomotion, inverse kinematics, and DFM-to-production product design."
 url: "https://hanxzh-ops.github.io"
 baseurl: ""
 
@@ -11,12 +11,15 @@ plugins:
 author:
   name: "Hanxiao Zhang"
   avatar: "/assets/images/avatar.jpg"
-  bio: "Mechanical Engineer focused on product design, prototyping, and manufacturing. I build mechatronic systems and validate them with testing + simulation."
+  bio: "Controls & robotics engineer who also designs and builds the hardware. RL/MPC locomotion, inverse kinematics, and sim-to-real — plus DFM, GD&T, and production."
   location: "Berkeley, CA"
   links:
     - label: "Email"
       icon: "fas fa-envelope"
       url: "mailto:hanxzh@berkeley.edu"
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://www.linkedin.com/in/hanxiao-zhang-6713b0383/"
     - label: "GitHub"
       icon: "fab fa-github"
       url: "https://github.com/hanxzh-ops"

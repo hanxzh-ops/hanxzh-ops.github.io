@@ -58,7 +58,7 @@ Controls, simulation-to-real, validation, and mechatronics projects (kept recrui
 </style>
 
 ## Featured case studies
-{% assign items = site.projects | where: "pillar", "control-robotics" %}
+{% assign items = site.projects | where: "pillar", "control-robotics" | sort: "order" %}
 <div class="project-grid">
 {% for p in items %}
   <article class="project-card">
@@ -75,8 +75,3 @@ Controls, simulation-to-real, validation, and mechatronics projects (kept recrui
 {% endfor %}
 </div>
 
-## Latest build logs
-{% assign posts = site.posts | where: "pillar", "control-robotics" %}
-{% for post in posts limit:6 %}
-- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})
-{% endfor %}

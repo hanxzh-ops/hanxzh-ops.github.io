@@ -1,8 +1,9 @@
 ---
 pillar: control-robotics
+order: 2
 title: "Hexabot Locomotion Control — Kinematics, MuJoCo Modeling & Procedural Gait Simulation"
 permalink: /projects/hexabot/
-excerpt: "A fully physics-simulated hexapod built from analytical kinematics, a custom MuJoCo XML model, and a real-time procedural tripod gait controller."
+excerpt: "A fully physics-simulated 18-DOF hexapod (6 legs x 3 joints) built from analytical inverse kinematics, a custom MuJoCo model, and a real-time procedural tripod-gait controller."
 header:
   teaser: /assets/images/projects/Hexabot/cover.jpg
   image: /assets/images/projects/Hexabot/cover.jpg

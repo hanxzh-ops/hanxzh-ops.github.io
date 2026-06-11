@@ -1,8 +1,9 @@
 ---
 pillar: personal-projects
+order: 10
 title: "Before the Lights Go Out: Predicting Formula 1 Race Outcomes with Machine Learning"
 permalink: /projects/predict-f1-race/
-excerpt: "A machine-learning study that predicts F1 finishing position and points-scoring finishes from 18 pre-race features, comparing 15 models across regression and classification."
+excerpt: "A machine-learning study predicting F1 finishing position and points-scoring finishes from 18 pre-race features — 15 models benchmarked across 2,679 races (2018-2024); tuned Gradient Boosting hit R2 0.658, 80.5% top-10 accuracy, and 0.888 AUC after catching a data-leakage bug."
 header:
   teaser: /assets/images/projects/f1-prediction/f1-hero.jpg
   image: /assets/images/projects/f1-prediction/f1-hero.jpg

@@ -58,7 +58,7 @@ Work focused on manufacturing processes, automation, throughput, QA, and documen
 </style>
 
 ## Featured case studies
-{% assign items = site.projects | where: "pillar", "manufacturing" %}
+{% assign items = site.projects | where: "pillar", "manufacturing" | sort: "order" %}
 <div class="project-grid">
 {% for p in items %}
   <article class="project-card">
@@ -75,8 +75,3 @@ Work focused on manufacturing processes, automation, throughput, QA, and documen
 {% endfor %}
 </div>
 
-## Latest build logs
-{% assign posts = site.posts | where: "pillar", "manufacturing" %}
-{% for post in posts limit:6 %}
-- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})
-{% endfor %}

@@ -1,8 +1,9 @@
 ---
 pillar: control-robotics
+order: 1
 title: "Intelligent Control of Quadruped Robot (Unitree Go2) — RL, MPC & Cooperative Manipulation"
 permalink: /projects/go2-quadruped/
-excerpt: "Full-stack locomotion and manipulation system on a Unitree Go2 quadruped — from RL sim-to-real transfer to a cooperative human-robot object carrying demo using onboard sensors only."
+excerpt: "Unified three-layer RL + MPC control stack on a Unitree Go2 + 6-DOF arm — PPO trained in Isaac Lab/MuJoCo, deployed to hardware, driving a cooperative human-robot carry with intent inferred from onboard IMU, foot-force, and joint sensors only (zero motion capture). Capstone of a 6-person team."
 header:
   image: /assets/images/projects/Go2/cover.jpg
   teaser: /assets/images/projects/Go2/cover.jpg

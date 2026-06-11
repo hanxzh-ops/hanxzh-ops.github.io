@@ -1,8 +1,9 @@
 ---
 pillar: mechanical-design
+order: 7
 title: "Transformable Carry-On / Checked Luggage Prototype"
 permalink: /projects/transformable-luggage/
-excerpt: "Led the concept, mechanism development, CAD, and prototype build of a transformable suitcase that expands between compact and high-capacity travel modes."
+excerpt: "A transformable carry-on whose single deploying mechanism expands it between two volume modes — compact and high-capacity — led from concept and CAD through a working physical prototype."
 header:
   teaser: /assets/images/projects/suitcase/cover.jpg
   image: /assets/images/projects/suitcase/cover.jpg

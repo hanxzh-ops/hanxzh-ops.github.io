@@ -1,12 +1,12 @@
 ---
-pillar: control-robotics
-order: 5
+pillar: personal-projects
+order: 9
 title: "Real-Time Transit Map from a Once-Every-4-Minutes Signal — Predict/Correct State Estimation on a Rate-Limited Feed"
 permalink: /projects/transit-visualizer/
 excerpt: "A live PCB-style transit board that turns a 60-request/hour feed — real position fixes only every ~4.5 minutes — into smooth real-time motion, using an along-track α–β filter with an integral 'pace' feedback loop, schedule-paced prediction, and on-route geometry, all tuned against real rush-hour drift logs."
 header:
-  teaser: /assets/images/projects/Traffic%20Visualizer/Cover.webp
-  image: /assets/images/projects/Traffic%20Visualizer/Cover.webp
+  teaser: /assets/images/projects/transit-visualizer/cover.webp
+  image: /assets/images/projects/transit-visualizer/cover.webp
 categories:
   - Controls
 tags:
@@ -19,13 +19,28 @@ tags:
 **Timeframe:** Jul 2026  
 **Tools:** State estimation (α–β filtering, integral feedback), GTFS-Realtime, Python (standard library only), vanilla JavaScript + Canvas, protobuf
 
+<style>
+  .equation {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 1.25rem 0;
+    padding: 0.25rem 0;
+    text-align: center;
+  }
+  .equation mjx-container { max-width: 100%; }
+  @media (max-width: 640px) {
+    .equation mjx-container { font-size: 0.9em !important; }
+  }
+</style>
+
 ## Project Overview
 This project is a desktop widget that shows every BART train and AC Transit bus moving across the San Francisco Bay Area in real time — a dark "PCB board" where stations are dots, routes are colored traces, and each vehicle is a glowing dot in its official line color. The visualization is the easy half. The interesting engineering lives underneath, and it is a **control and estimation** problem: the public transit feed (511.org) hard-limits each API token to **60 requests per hour**, so genuine ground-truth position fixes arrive only about **once every 4–5 minutes**. Everything the eye reads as "live" in between those fixes is produced by a per-vehicle estimator that predicts motion from a model and corrects it when a real measurement finally arrives.
 
 The whole system is deliberately dependency-light: a Python **standard-library** proxy (no framework, no `pip install`, including a hand-written GTFS-Realtime protobuf decoder) and a single **vanilla-JavaScript Canvas** front-end. That constraint kept the focus where it belonged — on the filtering.
 
-<video controls muted loop playsinline width="100%" poster="/assets/images/projects/Traffic%20Visualizer/Cover.webp">
-  <source src="/assets/images/projects/Traffic%20Visualizer/30secsLiveRunning.mp4" type="video/mp4">
+<video controls muted loop playsinline width="100%" poster="/assets/images/projects/transit-visualizer/cover.webp">
+  <source src="/assets/images/projects/transit-visualizer/live-run.mp4" type="video/mp4">
 </video>
 *30-second screen recording at 4× speed — the live board during rush hour. Every dot is being predicted between the ~4.5-minute API fixes and corrected on each sync.*
 
@@ -137,9 +152,11 @@ At each sync I compute the observed pace — the ratio of what actually happened
 
 <div class="equation">
 $$
-\rho_{\text{obs},k} = \frac{z_k - z_{k-1}}{\Sigma(t_k) - \Sigma(t_{k-1})}, \qquad
-\rho_k = \rho_{k-1} + \beta_\rho\big(\rho_{\text{obs},k} - \rho_{k-1}\big), \qquad
+\begin{gathered}
+\rho_{\text{obs},k} = \frac{z_k - z_{k-1}}{\Sigma(t_k) - \Sigma(t_{k-1})}, \\[6pt]
+\rho_k = \rho_{k-1} + \beta_\rho\big(\rho_{\text{obs},k} - \rho_{k-1}\big), \\[6pt]
 \bar{\rho}_k = \bar{\rho}_{k-1} + \eta\big(\rho_{\text{obs},k} - \bar{\rho}_{k-1}\big).
+\end{gathered}
 $$
 </div>
 
@@ -160,14 +177,14 @@ Convergence in simulation, starting from a +100% seeded over-estimate at the rea
 ## Validating with Real Data
 I did not tune the gains by eye. I wrote a diagnostic probe (`drift_probe.py`) that polls the running widget and, at *every* real fix, logs how far each model's prediction had drifted from the newly arrived ground truth — split into velocity-model vs schedule-model and bus vs rail — along with the sync intervals. A 2.5-hour rush-hour run produced this:
 
-![Drift summary over a 153-minute rush-hour run](/assets/images/projects/Traffic%20Visualizer/Drifiting%20Summary.png)
+![Drift summary over a 153-minute rush-hour run](/assets/images/projects/transit-visualizer/drift-summary.png)
 *Drift summary: 1,972 syncs across 179 vehicles. Median sync gap 270 s. The velocity model's signed drift is median +0 m (ratio 0.96×) — the systematic over-run is gone. The raw schedule model reads +98 m median, which the on-device pace loop (≈0.85) is what removes. The lone rail row shows the velocity model is useless for BART (−6,194 m, it predicts zero) while the schedule model tracks it — exactly why BART is schedule-driven.*
 
 Two things fall straight out of this log. First, the **velocity over-run is genuinely cancelled** at the median (0.96×, +0 m) — the α–β plus integral is doing its job. Second, the schedule's raw +98 m optimism (measured directly here) is precisely the bias the pace loop is built to absorb; the ~0.85 pace I hard-measured from earlier logs is the number the fleet integrator converges to.
 
 <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-  <img src="/assets/images/projects/Traffic%20Visualizer/Drifting_before.jpg" style="flex:1;min-width:280px;" alt="Board before the estimation fixes">
-  <img src="/assets/images/projects/Traffic%20Visualizer/Drifting_After.jpg" style="flex:1;min-width:280px;" alt="Board after the estimation fixes">
+  <img src="/assets/images/projects/transit-visualizer/drift-before.jpg" style="flex:1;min-width:280px;" alt="Board before the estimation fixes">
+  <img src="/assets/images/projects/transit-visualizer/drift-after.jpg" style="flex:1;min-width:280px;" alt="Board after the estimation fixes">
 </div>
 *The live board before (left) and after (right) the estimation and geometry fixes — vehicles sit cleanly on their routes and fill the whole window rather than clustering or drifting off-line.*
 
@@ -178,23 +195,27 @@ The first version placed the train by **linearly interpolating between the two b
 
 <div class="equation">
 $$
-\text{chord midpoint} = \tfrac{1}{2}(p_{\text{Rockridge}} + p_{\text{Orinda}}), \qquad
+\begin{gathered}
+\text{chord midpoint} = \tfrac{1}{2}(p_{\text{Rockridge}} + p_{\text{Orinda}}), \\[6pt]
 \operatorname{dist}\!\big(\text{chord midpoint},\, \gamma_{\text{Orange}}\big) \approx 4{,}362\ \text{m}.
+\end{gathered}
 $$
 </div>
 
 A train **4.36 km off its own track** — a bright "Metro / rail" dot floating in the hills east of campus where there is no metro at all:
 
-![A synthesized BART train mis-placed off its route](/assets/images/projects/Traffic%20Visualizer/BARTLineMissmatch.jpg)
+![A synthesized BART train mis-placed off its route](/assets/images/projects/transit-visualizer/bart-line-mismatch.jpg)
 *The failure mode: a synthesized Yellow-line train (the large bright dot, right of center) placed on the straight chord between distant stations, landing far off the actual curved BART line.*
 
 The fix is to interpolate along the route **shape**, not the chord. I parameterize the polyline by arc length \(\ell\), map each stop \(p_j\) to its arc-length position on the shape, interpolate arc length by time between the bounding stops, and evaluate the polyline there:
 
 <div class="equation">
 $$
-\ell_j = \arg\min_{\ell}\, \big\lVert \gamma(\ell) - p_j \big\rVert, \qquad
-\ell(t) = \ell_a + \frac{t - t_a}{t_b - t_a}\,(\ell_b - \ell_a), \qquad
+\begin{gathered}
+\ell_j = \arg\min_{\ell}\, \big\lVert \gamma(\ell) - p_j \big\rVert, \\[6pt]
+\ell(t) = \ell_a + \frac{t - t_a}{t_b - t_a}\,(\ell_b - \ell_a), \\[6pt]
 \hat{p}(t) = \gamma\big(\ell(t)\big).
+\end{gathered}
 $$
 </div>
 

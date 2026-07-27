@@ -66,7 +66,7 @@ The RL team adopted [Walk These Ways GO2](https://github.com/Teddy-Liao/walk-the
 
 The simulation result looked promising in the Isaac Gym visualizer. The dog walked forward stably in a variety of gaits and responded to velocity commands.
 
-<video width="100%" controls>
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/isaace_lab_forward_walk-poster.jpg">
   <source src="/assets/images/projects/Go2/isaace_lab_forward_walk.mp4" type="video/mp4">
 </video>
 *Isaac Lab forward walking policy after the initial 10,000-episode training run.*
@@ -87,12 +87,12 @@ Despite training at 50 Hz, the deployed policy was only executing at approximate
 **Problem 3: Standing instability.**  
 The dog had significant difficulty transitioning to a stable stand from rest. We had to issue an internal SDK stand command first and then hand off to the policy. Once standing, the policy caused continuous small hops in the static position and became unstable during turning and lateral walking.
 
-<video width="100%" controls>
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/First_Hardware_deployment-poster.jpg">
   <source src="/assets/images/projects/Go2/First_Hardware_deployment.mp4" type="video/mp4">
 </video>
 
-<video width="100%" controls>
-  <source src="/assets/images/projects/Go2/walk_these_ways_stand.mov" type="video/quicktime">
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/walk_these_ways_stand-poster.jpg">
+  <source src="/assets/images/projects/Go2/walk_these_ways_stand.mp4" type="video/mp4">
 </video>
 *First hardware deployment showing static hopping and poor stability during turning and lateral gait transitions.*
 
@@ -105,7 +105,7 @@ The dog had significant difficulty transitioning to a stable stand from rest. We
 
 The 20,000-episode retrain with tuned hyperparameters showed measurable but limited improvement. Turning stability improved noticeably, and the runtime body-height command became more responsive. However, the characteristic jumping gait, short, bouncy steps instead of fluid walking, persisted.
 
-<video width="100%" controls>
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/walk_these_ways-poster.jpg">
   <source src="/assets/images/projects/Go2/walk_these_ways.mp4" type="video/mp4">
 </video>
 *20,000-episode retrained policy with improved turning and body-height response, but the hopping gait still present.*
@@ -130,7 +130,7 @@ In MuJoCo simulation, the controller produced clean, stable gaits with good dist
 
 On real hardware, the controller failed to converge reliably. The Go2's onboard compute introduced **variable time delays** in the control loop. These delays were small enough to be negligible in simulation but large enough to cause the IPOPT solver to receive inconsistent state observations between iterations. The result was solver divergence: the QP solution would blow up into physically unrealistic ground reaction forces and violently destabilize the robot.
 
-<video width="100%" controls>
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/mpc_deploy-poster.jpg">
   <source src="/assets/images/projects/Go2/mpc_deploy.mp4" type="video/mp4">
 </video>
 *MPC hardware deployment showing solver divergence caused by timing delay and inconsistent feedback.*
@@ -190,7 +190,7 @@ Delta theta = J^T (J J^T + lambda^2 I)^-1 Delta x
 
 where `lambda` is the damping factor, `J` is the `6 x n` site Jacobian, and `Delta x` is the Cartesian error. The pipeline accepted XYZ Cartesian input, computed joint deltas, published them through the SDK, and read back encoder feedback. **CycloneDDS** was used as the ROS 2 middleware bridge between the host machine and the arm.
 
-<video width="100%" controls>
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/arm_ik-poster.jpg">
   <source src="/assets/images/projects/Go2/arm_ik.mp4" type="video/mp4">
 </video>
 *MuJoCo DLS IK solver enabling Cartesian XYZ control over the Unitree D1 arm.*
@@ -227,7 +227,7 @@ We ported the Walk These Ways training stack from Isaac Gym to **Isaac Lab** and
 | Domain randomization (external force) | Random pushes during training for disturbance robustness |
 | Standing reward | Explicit reward for stable static stance |
 
-<video width="100%" controls>
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/mj_lab_train-poster.jpg">
   <source src="/assets/images/projects/Go2/mj_lab_train.mp4" type="video/mp4">
 </video>
 *MJLab training run with smooth trot gait, stable standing, and reduced hopping.*
@@ -269,7 +269,7 @@ The arm was held at a fixed position while gripping a rigid stick. A team member
 
 A small **1D CNN classifier** was trained on windowed sensor streams to output a discrete intent label: `{forward, backward, stop}`. The model operated on a short temporal window of synchronized sensor readings and learned the signal signature of each intent class across all three modalities simultaneously.
 
-<video width="100%" controls>
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/motion_prediction_validation-poster.jpg">
   <source src="/assets/images/projects/Go2/motion_prediction_validation.mp4" type="video/mp4">
 </video>
 *Intent estimation validation where the robot pauses, classifies intent from onboard sensor streams, and executes the corresponding action.*
@@ -319,10 +319,10 @@ The updated workflow started with repeated data collection under controlled inte
 
 The model was then upgraded from the earlier classifier structure to a **GRU-based sequence model**, which was better suited for capturing temporal patterns in the interaction data. The resulting GRU classifiers were trained specifically for the new **side-walk** and **up/down** intent classes, and both performed well in testing. In practice, this gave the robot a richer interpretation layer: instead of only detecting whether to move forward or backward, the system could now recognize when the human partner wanted to shift the object laterally or change its vertical position during cooperative transport.
 
-![Side-Walk Classifier Demo](/assets/images/projects/Go2/side-walk.gif)
+<video src="/assets/images/projects/Go2/side-walk.mp4" autoplay loop muted playsinline width="100%" aria-label="Side-Walk Classifier Demo"></video>
 *GRU-based side-walk intent classifier integrated into the cooperative transport pipeline.*
 
-![Up-and-Down Classifier Demo](/assets/images/projects/Go2/arm-up-down.gif)
+<video src="/assets/images/projects/Go2/arm-up-down.mp4" autoplay loop muted playsinline width="100%" aria-label="Up-and-Down Classifier Demo"></video>
 *Vertical up/down interaction classifier for shared load adjustment during transport.*
 
 ---
@@ -332,7 +332,7 @@ The model was then upgraded from the earlier classifier structure to a **GRU-bas
 
 With the expanded classifiers integrated, the final system moved from a proof-of-concept carrying demo to a more complete **physical cooperative transport** task. The robot and a human partner jointly transported an object while negotiating the environment and avoiding obstacles, with the Go2 continuously interpreting intent from onboard sensing alone and blending locomotion, arm compliance, and trajectory adjustment in real time. This was a more demanding benchmark than the earlier demos because it required the control stack to remain stable while interpreting multiple classes of interaction intent and executing them under load.
 
-<video width="100%" controls>
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/HQ-PCoT_2-poster.jpg">
   <source src="/assets/images/projects/Go2/HQ-PCoT_2.mp4" type="video/mp4">
 </video>
 *Integrated physical cooperative transport demo with obstacle avoidance and multi-class intent understanding.*
@@ -342,7 +342,7 @@ The integrated system performed strongly in evaluation. Across **six rounds per 
 ![Evaluation Result](/assets/images/projects/Go2/evaluation.png)
 *Comparison of the integrated cooperative transport system against voice control and direct human teleoperation.*
 
-<video width="100%" controls>
+<video width="100%" controls preload="none" poster="/assets/images/projects/Go2/walking_demo-poster.jpg">
   <source src="/assets/images/projects/Go2/walking_demo.mp4" type="video/mp4">
 </video>
 *Earlier cooperative carry demo showing the core onboard-sensing transport behavior before the expanded classifier stage.*

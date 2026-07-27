@@ -84,7 +84,7 @@ Because the pump only transfers water rather than compressing it, I specified **
 The pumping element is a **slotted rotor running eccentrically inside a cylindrical bore**, formed between the housing and a bolted front plate. The vanes ride in the rotor slots and are flung outward against the bore wall, sweeping sealed crescents of water from the inlet kidney port to the outlet. The design baseline used six vanes; the **production unit runs four** (see [Production Optimization](#production-optimization--from-six-vanes-to-four)), which is the configuration described from here on.
 
 <figure class="align-center">
-  <img src="/assets/images/projects/water-pump/vane-animation.gif" alt="Animation of the rotary-vane mechanism">
+  <video src="/assets/images/projects/water-pump/vane-animation.mp4" autoplay loop muted playsinline width="100%" aria-label="Animation of the rotary-vane mechanism"></video>
   <figcaption>Motion study of the operating principle: as the rotor turns, each vane extends to ride the bore and carries a sealed pocket of water from inlet to outlet, then retracts into its slot. This kinematic study illustrates the vane sweep that the clearance and tolerance work below has to protect.</figcaption>
 </figure>
 

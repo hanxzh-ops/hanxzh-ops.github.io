@@ -39,7 +39,7 @@ This project is a desktop widget that shows every BART train and AC Transit bus 
 
 The whole system is deliberately dependency-light: a Python **standard-library** proxy (no framework, no `pip install`, including a hand-written GTFS-Realtime protobuf decoder) and a single **vanilla-JavaScript Canvas** front-end. That constraint kept the focus where it belonged — on the filtering.
 
-<video controls muted loop playsinline width="100%" poster="/assets/images/projects/transit-visualizer/cover.webp">
+<video controls muted loop playsinline width="100%" poster="/assets/images/projects/transit-visualizer/cover.webp" preload="none">
   <source src="/assets/images/projects/transit-visualizer/live-run.mp4" type="video/mp4">
 </video>
 *30-second screen recording at 4× speed — the live board during rush hour. Every dot is being predicted between the ~4.5-minute API fixes and corrected on each sync.*

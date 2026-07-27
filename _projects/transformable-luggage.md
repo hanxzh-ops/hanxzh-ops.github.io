@@ -54,7 +54,7 @@ Once the concept direction was chosen, I developed the transformable architectur
 
 The initial concept-validation stage is captured in the early mechanism simulation below:
 
-<video controls width="100%">
+<video controls width="100%" preload="none" poster="/assets/images/projects/suitcase/explading_mechanism_initial-poster.jpg">
   <source src="/assets/images/projects/suitcase/explading_mechanism_initial.mp4" type="video/mp4">
 </video>
 
@@ -84,7 +84,7 @@ This phase required balancing geometry, packaging, structural logic, and assembl
 ![Prototype BOM](/assets/images/projects/suitcase/BOM_Prototype.jpg)
 *Prototype bill of materials used to organize fabricated and purchased components during the build.*
 
-![Prototype Documentation](/assets/images/projects/suitcase/Prototype%20GD%26T%20drawing.jpg)
+![Prototype Documentation](/assets/images/projects/suitcase/prototype-gdt-drawing.jpg)
 *Prototype documentation package including assembly references and engineering drawings.*
 
 ## Prototype Manufacturing Strategy
@@ -112,7 +112,7 @@ Over successive trials, we were able to produce shell pieces quickly and with mu
 ![Defective Press Part](/assets/images/projects/suitcase/SamplePressPartwithDefect.jpeg)
 *Early shell sample showing forming defects caused by poor vacuum exhaust and uneven material draw.*
 
-![Shell Pieces](/assets/images/projects/suitcase/shell%20pieces.jpeg)
+![Shell Pieces](/assets/images/projects/suitcase/shell-pieces.jpg)
 *Improved shell components prepared for prototype assembly after process refinement.*
 
 ## Final Prototype Assembly
@@ -124,8 +124,8 @@ The final prototype demonstrated the central claim of the project: one suitcase 
 ![Fully Open Prototype](/assets/images/projects/suitcase/fully_open.jpg)
 *Working scale prototype in the expanded/open configuration.*
 
-<video controls width="100%">
-  <source src="/assets/images/projects/suitcase/expanding_mechanism.webm" type="video/webm">
+<video controls width="100%" preload="none" poster="/assets/images/projects/suitcase/expanding_mechanism-poster.jpg">
+  <source src="/assets/images/projects/suitcase/expanding_mechanism.mp4" type="video/mp4">
 </video>
 
 ## Outcome

@@ -1,9 +1,9 @@
 ---
 pillar: control-robotics
 order: 1
-title: "Intelligent Control of Quadruped Robot (Unitree Go2) — RL, MPC & Cooperative Manipulation"
+title: "HQ-PCOT: Human-Quadruped Proprioceptive Co-Transport (Unitree Go2) — RL Locomotion, Pink IK & Onboard Intent Estimation"
 permalink: /projects/go2-quadruped/
-excerpt: "Unified three-layer RL + MPC control stack on a Unitree Go2 + 6-DOF arm — PPO trained in Isaac Lab/MuJoCo, deployed to hardware, driving a cooperative human-robot carry with intent inferred from onboard IMU, foot-force, and joint sensors only (zero motion capture). Capstone of a 6-person team."
+excerpt: "A three-layer ROS 2 Humble co-transport stack on a Unitree Go2 + D1 arm: PPO locomotion trained in MJLab, Pink differential-IK arm control, and GRU intent classifiers (500 ms @ 200 Hz, exported to ONNX) that read human intent from proprioception alone — no motion capture, no force/torque sensor. Validated with leave-one-bag-out cross-validation and benchmarked against voice and teleoperation baselines. 6-person MEng capstone."
 header:
   image: /assets/images/projects/Go2/cover.jpg
   teaser: /assets/images/projects/Go2/cover.jpg
@@ -23,16 +23,20 @@ tags:
   - sim-to-real
 ---
 
+**Project:** HQ-PCOT — *Human-Quadruped Proprioceptive Co-Transport via Hierarchical Control*  
 **Timeframe:** Sep 2025 – May 2026  
+**Affiliation:** UC Berkeley — Master of Engineering capstone, Mechanical Engineering  
 **Team:** 6 members -> 2 sub-teams (RL / MPC) -> merged into unified control stack  
-**Tools:** Python, C++, MuJoCo, Isaac Lab, Pinocchio, CasADi, ROS 2 Humble, Unitree SDK, PPO, Streamlit  
-**Robot:** Unitree Go2 quadruped + Unitree D1 robotic arm (6-DOF + gripper)
+**Tools:** ROS 2 Humble, Docker, Python + C++, MuJoCo, MJLab, PPO, Pink / Pinocchio, PyTorch, ONNX Runtime, Unitree SDK, Streamlit, Foxglove  
+**Robot:** Unitree Go2 quadruped (Jetson Orin onboard compute) + Unitree D1 arm (6-DOF + gripper)
 
 ---
 
 ## Project Overview
 
-This capstone began as an open-ended exploration: take a Unitree Go2 quadruped robot, implement intelligent locomotion control, and, if time allowed, tackle the robotic arm attached to its back. What started as a parallel experiment between two control philosophies, RL vs. MPC, evolved into a unified, three-layer cooperative control system capable of carrying an oversized object alongside a human, using **no external sensors or motion capture** and relying only on the robot's onboard IMU, foot force sensors, joint encoders, and arm feedback.
+This capstone began as an open-ended exploration: take a Unitree Go2 quadruped robot, implement intelligent locomotion control, and, if time allowed, tackle the robotic arm attached to its back. What started as a parallel experiment between two control philosophies, RL vs. MPC, evolved into **HQ-PCOT** — a unified, three-layer cooperative control system capable of carrying an oversized object alongside a human, using **no external sensors or motion capture** and relying only on the robot's onboard IMU, foot force sensors, joint encoders, and arm feedback.
+
+The name states the thesis: co-transport driven by **proprioception**. The robot never sees its human partner. It infers what they intend to do next purely from the forces and deflections that the shared object transmits into its own body and arm.
 
 The later-stage system expanded beyond simple forward/backward intention decoding. After the initial cooperative carrying result, the interaction pipeline was extended to classify sideways transport intent and arm up/down motion as well, making the robot substantially more useful in a realistic shared-carry task with obstacle avoidance and path correction.
 
@@ -163,17 +167,19 @@ To structure the problem, we designed a **three-layer hierarchical control pipel
 ![Control pipeline architecture](/assets/images/projects/Go2/control-pipeline.png)
 *Three-layer control pipeline: intent estimation, body coordination, and low-level execution.*
 
-| Layer | Name | Method | Role |
+| Layer | Package | Method | Role |
 |---|---|---|---|
-| **High** | Human Intent Estimator | CNN classifier on sensor streams | Predicts human intended motion direction from foot force, IMU, and arm encoder signals |
-| **Mid** | Body Coordination Optimizer | Threshold-based hybrid controller | Decides whether to move legs, compensate with arm IK only, or both |
-| **Low** | Execution Layer | RL locomotion policy + constrained IK solver | Executes leg gaits and arm joint targets |
+| **High** | `intent_estimator` | GRU sequence classifiers served through ONNX Runtime — one node each for front/back, left/right, up/down | Predicts human intended motion from proprioceptive streams |
+| **Mid** | `coordination_module` | Threshold-based arbitration (`intent_command_coordinator`, plus a `teleop_coordinator` for the baseline) | Decides whether to step, compensate with the arm only, or both |
+| **Low** | `locomotion_controller` + `arm_pink_controller` | PPO policy at 50 Hz; Pink differential IK on a Pinocchio model | Executes leg gaits and arm joint targets |
+
+Supporting packages complete the stack: `go2_state_converter` (Go2 lowstate + D1 servo feedback → `/imu`, `/joint_states`, TF), `icon_lab_d1_ros2` (ROS/UDP bridge to the D1 servos), `hq_pcot_msgs` (shared message definitions), `hq_pcot` (launch), and `telemetry_dashboard`.
 
 The three sub-tasks, motion training, arm control, and full-stack integration, were divided among the team.
 
 ---
 
-### Milestone 6 - Arm Control: SDK -> MuJoCo IK -> Pinocchio + CasADi
+### Milestone 6 - Arm Control: SDK -> MuJoCo DLS IK -> Pink Differential IK
 *January-February 2026*
 
 The D1 robotic arm (6-DOF + gripper) required building an inverse-kinematics pipeline from scratch because the Unitree SDK only exposes low-level joint angle commands.
@@ -188,33 +194,37 @@ We implemented an IK solver using MuJoCo's internal Jacobian computation (`mj_ja
 Delta theta = J^T (J J^T + lambda^2 I)^-1 Delta x
 ```
 
-where `lambda` is the damping factor, `J` is the `6 x n` site Jacobian, and `Delta x` is the Cartesian error. The pipeline accepted XYZ Cartesian input, computed joint deltas, published them through the SDK, and read back encoder feedback. **CycloneDDS** was used as the ROS 2 middleware bridge between the host machine and the arm.
+where `lambda` is the damping factor, `J` is the `6 x n` site Jacobian, and `Delta x` is the Cartesian error. The pipeline accepted XYZ Cartesian input, computed joint deltas, published them through the SDK, and read back encoder feedback.
 
 <video width="100%" controls preload="none" poster="/assets/images/projects/Go2/arm_ik-poster.jpg">
   <source src="/assets/images/projects/Go2/arm_ik.mp4" type="video/mp4">
 </video>
 *MuJoCo DLS IK solver enabling Cartesian XYZ control over the Unitree D1 arm.*
 
-**Stage 3: Pinocchio + CasADi constrained IK (final)**  
-The MuJoCo solver had two limitations: it lacked support for joint constraints and depended on Ethernet-only operation. We migrated to **Pinocchio** for kinematics and **CasADi** for nonlinear optimization, enabling a constrained IK formulation.
+**Stage 3: Pink differential IK on a Pinocchio model (final)**  
+The MuJoCo solver had two limitations: it carried no notion of joint limits or task priority, and it tied the arm to a host machine over Ethernet. The final controller (`arm_pink_controller`) moved to **Pink**, a task-space differential-IK library built on **Pinocchio**. Instead of solving one damped pseudoinverse, Pink assembles a small **weighted quadratic program each control tick**: tasks (end-effector pose, posture regularization) become weighted objectives, and joint position/velocity limits enter as hard inequality constraints, so the solution is feasible by construction rather than clipped after the fact.
 
-- **Gripper orientation constraint:** The end-effector was constrained to maintain a fixed reference pose, specifically the initial horizontal orientation. This was enforced as a cost term in the CasADi objective instead of a hard equality constraint, which improved convergence.
-- **Partial-DOF optimization:** Because the arm only needed to pick objects from the side, full 6-DOF solving was unnecessary. We fixed proximal joints and optimized only the distal subset, reducing problem dimensionality and improving solve time.
-- **Wireless operation:** We removed the Ethernet dependency by routing commands through the ROS 2 `/arm_command` node over the Jetson WiFi link.
+That reframing bought three things the DLS solver could not give:
 
-The `/arm_command` node consolidated Cartesian target input, Pinocchio/CasADi IK solve, joint-angle array plus mode flag, Unitree SDK publishing, and physical arm execution.
+- **Orientation as a weighted task.** Keeping the gripper level while carrying is expressed as an orientation task with its own weight, traded off smoothly against the position task instead of fighting it as a hard equality.
+- **Joint limits respected in the solve.** Limits are constraints in the QP, which removed the limit-clipping discontinuities that made the DLS output jerk near the edge of the workspace.
+- **Posture regularization.** A low-weight posture task resolves the arm's redundancy toward a neutral carry pose, which keeps the elbow from drifting into awkward configurations over a long transport run.
 
-The D1 has **6 active DOF plus 1 gripper**. In the final solver, proximal joints such as shoulder rotation and upper arm motion were fixed to a side-pick configuration, while distal joints such as elbow, wrist pitch, and wrist roll were optimized. The gripper joint was separately controlled via a binary open/close command.
+Two nodes run in the final stack: `d1_arm_controller` for general pose control, and `d1_pink_z_ref_controller`, a dedicated **vertical-reference controller** that holds or shifts the carried object's height — the actuation counterpart to the up/down intent classifier. Both publish loop-health telemetry and wait on fresh `/arm/servo_feedback` before commanding, so a stale feedback link stalls the controller instead of driving the arm open-loop.
+
+Commands reach the servos through `icon_lab_d1_ros2`, a **ROS/UDP bridge** that carries D1 servo feedback and commands. Routing the arm through a ROS 2 node on the Jetson removed the Ethernet-to-host dependency entirely — the whole stack runs onboard.
+
+The D1 has **6 active DOF plus 1 gripper**, with the gripper driven separately by a binary open/close command.
 
 ---
 
-### Milestone 7 - Locomotion Retraining: Isaac Lab -> MJLab, Imitation Learning
+### Milestone 7 - Locomotion Retraining: Isaac Gym -> MJLab, Imitation Learning
 *February-March 2026*
 
 With the unified goal defined, the locomotion policy needed to be rebuilt to support stable standing, smooth walking without the hopping artifact, and, critically, walking with the D1 arm mounted and potentially loaded.
 
 **MJLab conversion (20x speedup):**  
-We ported the Walk These Ways training stack from Isaac Gym to **Isaac Lab** and stripped out components irrelevant to our use case, such as gait switching, special actions, and curriculum scheduling. Training speed improved by more than **20x**, reducing iteration cycles from hours to minutes.
+We ported the Walk These Ways training stack from Isaac Gym to **MJLab** — MuJoCo-based training — and stripped out components irrelevant to our use case, such as gait switching, special actions, and curriculum scheduling. Keeping training and the arm-augmented model in the same physics engine also removed a source of sim-to-sim mismatch. Training speed improved by more than **20x**, reducing iteration cycles from hours to minutes.
 
 **Reward shaping additions:**
 
@@ -251,7 +261,7 @@ Training curriculum:
 
 ---
 
-### Milestone 8 - Human Intent Estimation: Sensor Fusion + CNN Classifier
+### Milestone 8 - Human Intent Estimation: First Classifier on Proprioceptive Streams
 *March-April 2026*
 
 The core research contribution of this project was **inferring human locomotion intent from physical interaction signals using only onboard sensors**.
@@ -292,21 +302,24 @@ This threshold-based hybrid created a natural compliance band: the robot absorbe
 ### Milestone 9 - Full Control Stack Integration (ROS 2)
 *April 2026*
 
-All components were integrated into a unified **ROS 2 Humble** control stack running on the Go2 onboard Jetson compute:
+All components were integrated into a unified **ROS 2 Humble** workspace running on the Go2's **Jetson Orin**, packaged as a **Docker image** so the entire stack — ROS, ONNX Runtime, Pinocchio/Pink, and the Unitree SDK — rebuilds identically on the robot instead of depending on a hand-configured Jetson:
 
 ```text
-/intent_estimator       <- CNN classifier, publishes {forward, backward, stop}
-/body_coordinator       <- Threshold logic, routes to leg policy or arm IK
-/rl_locomotion          <- Deployed PPO policy at 50 Hz
-/arm_command            <- Pinocchio/CasADi IK -> Unitree D1 SDK publisher
-/state_estimator        <- InEKF fusing IMU + joint encoders + foot contact
-/arm_feedback_parser    <- Parses /armFeedback, feeds intent estimator
-/standup_init           <- SDK stand command -> policy handoff sequence
+intent_estimator       front_back / left_right / up_down GRU nodes (ONNX Runtime)
+coordination_module    intent_command_coordinator (autonomous) | teleop_coordinator (baseline)
+locomotion_controller  policy_controller (PPO @ 50 Hz) + standup_init handoff
+arm_pink_controller    d1_arm_controller + d1_pink_z_ref_controller (Pink IK)
+icon_lab_d1_ros2       ROS/UDP bridge for D1 servo feedback and commands
+go2_state_converter    Go2 lowstate + D1 servo feedback -> /imu, /joint_states, TF
+hq_pcot_msgs           shared message definitions (incl. LoopStatus)
+telemetry_dashboard    Streamlit UI, launches the stack
 ```
 
-A **Streamlit telemetry dashboard** ran alongside the stack, providing real-time visualization of robot state, controller mode, intent-classifier output, and IK solver status. A **Foxglove bridge** was included for full ROS 2 topic inspection and replay. The dashboard also exposed start/stop controls for the main stack and the bridge.
+State handling is deliberately lightweight: `go2_state_converter` republishes the Go2's own `lowstate` and the D1 servo feedback into standard ROS interfaces (`/imu`, `/joint_states`, and the robot TF tree). Because every layer of HQ-PCOT consumes proprioception directly, the stack never needed a global pose estimate — which is precisely why it can run with no motion capture.
 
-The **InEKF (Invariant Extended Kalman Filter) state estimator** fused IMU linear acceleration and angular velocity with joint encoder readings and binary foot-contact signals to produce a continuous body pose and velocity estimate, the same state vector consumed by the intent estimator and body coordinator.
+**Real-time health monitoring.** Every node publishes a custom `hq_pcot_msgs/LoopStatus` message on a `/status/...` topic carrying not just a state code but **loop timing**: `avg_loop_ms`, `p99_loop_ms`, `max_loop_ms`, `budget_ms`, `deadline_miss_count`, and `sample_count`. Tracking p99 latency and explicit deadline misses against a declared budget — rather than average rate alone — came directly from the 50 Hz lesson earlier in the project: on this robot, control problems announce themselves as timing problems first. Nodes also expose *why* they are idle (`waiting for fresh /lowstate`, `waiting for /arm/servo_feedback`, `waiting for standing_init readiness`), which turns a silent robot into a diagnosable one.
+
+A **Streamlit telemetry dashboard** (`localhost:8501`) visualizes robot state, controller mode, intent output, and each node's loop health, and can start the control stack and a **Foxglove bridge** (port `8765`) for full topic inspection and replay.
 
 ---
 
@@ -315,9 +328,27 @@ The **InEKF (Invariant Extended Kalman Filter) state estimator** fused IMU linea
 
 Once the initial forward/backward classifier and carry logic were working reliably, the next limitation became obvious: cooperative transport is not only about moving forward or stopping. A practical shared-carry system also needs to understand lateral correction and vertical object adjustment. To address that, the data-collection pipeline was extended so the team could capture new interaction examples for **side walking** and **arm up/down** commands while the robot was holding a shared object.
 
-The updated workflow started with repeated data collection under controlled interaction conditions, where synchronized onboard sensor streams were recorded while a human partner intentionally induced lateral carry motion and vertical load-adjustment motion. Those recordings were then preprocessed into training-ready temporal windows, aligning the force, IMU, and arm feedback channels, cleaning inconsistent segments, and organizing the labeled sequences into a format suitable for sequence learning rather than single-frame classification. This was an important change in emphasis: the team was no longer trying to classify intent from isolated instantaneous sensor values, but from short motion histories that contained the dynamic signature of how the human was interacting with the robot.
+Data was recorded straight off the robot as **ROS 2 bags** while a human partner deliberately induced lateral carry motion and vertical load adjustment. A parser converted each bag into windowed `X/y/t/seg` arrays, and the model moved from single-frame classification to a **GRU sequence model** — the decisive change, because human intent lives in the *dynamics* of a push, not in any instantaneous sensor value.
 
-The model was then upgraded from the earlier classifier structure to a **GRU-based sequence model**, which was better suited for capturing temporal patterns in the interaction data. The resulting GRU classifiers were trained specifically for the new **side-walk** and **up/down** intent classes, and both performed well in testing. In practice, this gave the robot a richer interpretation layer: instead of only detecting whether to move forward or backward, the system could now recognize when the human partner wanted to shift the object laterally or change its vertical position during cooperative transport.
+**Window and sampling.** Every training sample is a **500 ms history window sampled at 200 Hz — 100 timesteps**. Long enough to contain the signature of a deliberate push; short enough that the robot still reacts promptly.
+
+**Per-task feature sets.** The two classifiers deliberately read *different* parts of the robot, because the two intents show up in different physics:
+
+| Task | Labels | Features | Why these signals |
+|---|---|---|---|
+| **Left / right** | `0,3,4` = rest / left / right | foot force, IMU acceleration, joint velocity (`ff accel dq`) | A lateral push is a whole-body event: it loads the feet asymmetrically and perturbs the base before the arm moves much |
+| **Up / down** | `0,5,6` = rest / up / down | arm joint angles, arm servo currents (`arm_angles arm_currents`) | A vertical adjustment is felt in the arm: the servos must fight the load change, so the current draw reports it before the pose visibly changes |
+
+Using **servo current** as an intent signal is what let the system sense vertical force without any force/torque sensor — the motors are the load cell.
+
+**Label hygiene.** Two preprocessing rules did most of the work of making the "rest" class honest:
+
+- **Boundary exclusion (`e060`)** — rest samples within **0.60 s** of an action segment are dropped, so the model is not trained on ambiguous wind-up frames where the human has begun moving but the label still reads rest.
+- **Pure-history filtering (`hpure`)** — a window is kept only if its *entire* 500 ms history sits inside one contiguous label segment. Without this, windows straddling a transition carry two intents and teach the model contradictions.
+
+**Evaluation: leave-one-bag-out.** Accuracy on a random split would be self-deceiving here, because consecutive windows from one recording overlap heavily — a random split leaks nearly identical frames across train and test. Instead the models were validated with **leave-one-bag-out (LOBO) cross-validation**, retraining once per held-out bag so every evaluation is against an interaction session the model has never seen. Selection used **`avg_macro_f1`, `min_macro_f1`, and `min_worst_class_f1`** rather than accuracy — deliberately including worst-case metrics, since a classifier that is excellent on average but fails on one direction is unsafe on hardware. A **1D CNN** was trained as a baseline under the identical pipeline; the GRU won on these metrics and became the deployed model for both tasks.
+
+**Deployment.** Trained models export to **ONNX** alongside a `.deploy.yaml` manifest that pins everything inference needs to stay consistent with training — `input_layout: NCT`, `num_timesteps: 100`, `window_ms: 500`, `sampling_hz: 200`, the label set, the selected feature blocks, and the **normalization statistics**. That manifest is what prevents the classic deployment bug where the robot normalizes its live sensor stream differently from the training set. On the robot, `intent_estimator` loads the ONNX graphs through **ONNX Runtime** on the Jetson and predicts by **argmax** with no extra confidence threshold.
 
 <video src="/assets/images/projects/Go2/side-walk.mp4" autoplay loop muted playsinline width="100%" aria-label="Side-Walk Classifier Demo"></video>
 *GRU-based side-walk intent classifier integrated into the cooperative transport pipeline.*
@@ -337,7 +368,9 @@ With the expanded classifiers integrated, the final system moved from a proof-of
 </video>
 *Integrated physical cooperative transport demo with obstacle avoidance and multi-class intent understanding.*
 
-The integrated system performed strongly in evaluation. Across **six rounds per method**, the cooperative transport stack outperformed both **voice control** and **pure human teleoperation** baselines. That result mattered because it suggested the shared-autonomy layer was doing more than simply replacing one manual interface with another. It was helping the robot respond faster and more naturally to physical human intent than command-mediated control strategies.
+The integrated system performed strongly in evaluation. Across **six rounds per method**, the cooperative transport stack outperformed both **voice control** and **pure human teleoperation** baselines. The comparison is a fair one because the teleoperation baseline runs through the same stack — `coordination_module` ships a `teleop_coordinator` alongside the autonomous `intent_command_coordinator`, so both conditions share identical locomotion, arm control, and hardware paths, and only the intent source changes.
+
+That result mattered because it suggested the shared-autonomy layer was doing more than simply replacing one manual interface with another. It was helping the robot respond faster and more naturally to physical human intent than command-mediated control strategies.
 
 ![Evaluation Result](/assets/images/projects/Go2/evaluation.png)
 *Comparison of the integrated cooperative transport system against voice control and direct human teleoperation.*
@@ -348,3 +381,10 @@ The integrated system performed strongly in evaluation. Across **six rounds per 
 *Earlier cooperative carry demo showing the core onboard-sensing transport behavior before the expanded classifier stage.*
 
 The next step for the project is to push beyond reactive shared transport and move toward **proactive cooperative transport**, where the robot does not simply respond to force cues and classified intent after they occur, but begins predicting partner behavior and assisting more intelligently before large corrections are needed.
+
+---
+
+## Repositories
+
+- **[HQ-PCOT control stack](https://github.com/elijah-waichong-chan/hq-pcot)** — the ROS 2 Humble workspace deployed on the Go2's Jetson Orin: intent estimation, coordination, locomotion, and Pink-based arm control, packaged with Docker.
+- **[Human Intent Estimator](https://github.com/jabichebli/human-intent-estimator)** — the training pipeline: ROS 2 bag parsing, windowed dataset construction, GRU/CNN training, leave-one-bag-out evaluation, and ONNX export.
